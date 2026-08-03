@@ -1,12 +1,12 @@
 // ============================================================
-// Pandora X — PM2 进程管理配置
+// 楚楚智创 · OPC孵化器 — PM2 进程管理配置
 // 使用: pm2 start ecosystem.config.cjs
 // ============================================================
 
 module.exports = {
   apps: [
     {
-      name: 'pandora-backend',
+      name: 'chuchu-backend',
       // Run from project root so dotenv finds .env
       script: 'backend/src/server.js',
       // ---- 自动重启 ----

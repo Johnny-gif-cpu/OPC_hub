@@ -1,5 +1,5 @@
 // ============================================================
-// Pandora X — seed data (idempotent, MongoDB).
+// 楚楚智创 — seed data (idempotent, MongoDB).
 // Mirrors the frontend's original hardcoded content so the DB
 // ships pre-populated. Safe to run repeatedly: uses upsert.
 // Run automatically on server start, or manually: npm run seed
@@ -9,23 +9,23 @@ import { User, Skill, Request, Pioneer } from './models.js';
 
 // ------------------------------------------------------------
 // Demo community members. These are real accounts (hashed password
-// "pandora123") so a curious user can even log in as them. New users
+// "chuchu123") so a curious user can even log in as them. New users
 // are auto-connected to a few of them on registration so the social
 // dock is never empty. Avatars are emoji for zero-asset portability.
 // ------------------------------------------------------------
-const DEMO_PASSWORD = 'pandora123';
+const DEMO_PASSWORD = 'chuchu123';
 const DEMO_USERS = [
-  { email: 'riverflow@pandora.ai', name: 'RiverFlow', avatar: '🦦', headline: '金牌创作者 · 全栈 Skill 作者', bio: '14 个上架 Skills，专注把复杂流程做成一键可用的 Skill。' },
-  { email: 'neolab@pandora.ai', name: 'NeoLab', avatar: '🧪', headline: '增长顾问 · 企业内容方向', bio: '帮品牌把内容生产标准化，需求对接成功率 92%。' },
-  { email: 'atlas@pandora.ai', name: 'AtlasChen', avatar: '🛰️', headline: '人气之星 · 自动化极客', bio: '累计下载 48k+，喜欢折腾自动化与工作流。' },
-  { email: 'mira@pandora.ai', name: 'Mira_7', avatar: '🌷', headline: '新锐先锋 · 日常场景作者', bio: '6 个生活类爆款，热衷穿搭、美食与微旅行。' },
-  { email: 'kite@pandora.ai', name: 'KiteWorks', avatar: '🪁', headline: '企业伙伴 · 社群与工具链', bio: '已签约 3 家企业客户，主攻社群冷启动与工具链。' },
-  { email: 'pandora@pandora.ai', name: 'Pandora 小助手', avatar: '🪐', headline: '官方账号 · 你的向导', bio: '有任何关于发布、部署与激励的问题，随时找我。' },
+  { email: 'riverflow@chuchu-ai.cn', name: 'RiverFlow', avatar: '🦦', headline: '金牌创作者 · 全栈 Skill 作者', bio: '14 个上架 Skills，专注把复杂流程做成一键可用的 Skill。' },
+  { email: 'neolab@chuchu-ai.cn', name: 'NeoLab', avatar: '🧪', headline: '增长顾问 · 企业内容方向', bio: '帮品牌把内容生产标准化，需求对接成功率 92%。' },
+  { email: 'atlas@chuchu-ai.cn', name: 'AtlasChen', avatar: '🛰️', headline: '人气之星 · 自动化极客', bio: '累计下载 48k+，喜欢折腾自动化与工作流。' },
+  { email: 'mira@chuchu-ai.cn', name: 'Mira_7', avatar: '🌷', headline: '新锐先锋 · 日常场景作者', bio: '6 个生活类爆款，热衷穿搭、美食与微旅行。' },
+  { email: 'kite@chuchu-ai.cn', name: 'KiteWorks', avatar: '🪁', headline: '企业伙伴 · 社群与工具链', bio: '已签约 3 家企业客户，主攻社群冷启动与工具链。' },
+  { email: 'assistant@chuchu-ai.cn', name: '楚楚小助手', avatar: '🏛️', headline: '官方账号 · 你的向导', bio: '有任何关于发布、部署与激励的问题，随时找我。' },
 ];
 
 // Welcome DM that the official assistant sends to every new user.
-export const WELCOME_FROM = 'pandora@pandora.ai';
-export const WELCOME_TEXT = '欢迎加入 Pandora X！在这里你可以发现、部署并发布 AI Skills。左侧已经帮你关注了几位活跃创作者，随时可以和他们打个招呼。';
+export const WELCOME_FROM = 'assistant@chuchu-ai.cn';
+export const WELCOME_TEXT = '欢迎加入楚楚智创 · OPC 孵化器！在这里你可以发现、部署并发布 AI 智能体。左侧已经帮你关注了几位活跃创作者，随时可以和他们打个招呼。';
 
 const SKILL_SLUGS = {
   s1: 'home-recipe-muse', s2: 'shop-visit-notes', s3: 'takeout-ranking', s4: 'icebreaker-cards',
@@ -88,7 +88,7 @@ export async function seed() {
   }
 
   // ---- Skills (upsert by _id) ----
-  const demoEmail = 'demo@pandora.ai';
+  const demoEmail = 'demo@chuchu-ai.cn';
   for (let i = 0; i < SKILLS.length; i++) {
     const s = SKILLS[i];
     await Skill.findOneAndUpdate(

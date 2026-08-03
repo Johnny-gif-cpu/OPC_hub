@@ -1,18 +1,18 @@
 # ============================================================
-# Pandora X — Nginx 反向代理配置（仅 API）
+# 楚楚智创 · OPC孵化器 — Nginx 反向代理配置（仅 API）
 # 前端由 Vercel 托管，这个 Nginx 只负责把 API 请求转发到后端。
-# 适用: Ubuntu/Debian (/etc/nginx/sites-available/pandora)
+# 适用: Ubuntu/Debian (/etc/nginx/sites-available/chuchu)
 # ============================================================
 #
 # 你需要修改的地方（搜索 🔴）:
-#   1. server_name   — 你的后端域名（如 api.pandora.com）
+#   1. server_name   — 你的后端域名（如 api.chuchu-opc.com）
 #   2. proxy_pass    — 后端端口（如果改了默认的 4000）
 #
 # 使用步骤:
 #   1. 复制到 Nginx 目录:
-#      sudo cp nginx.conf.example /etc/nginx/sites-available/pandora
+#      sudo cp nginx.conf.example /etc/nginx/sites-available/chuchu
 #   2. 修改 🔴 标记的域名
-#   3. 启用: sudo ln -s /etc/nginx/sites-available/pandora /etc/nginx/sites-enabled/
+#   3. 启用: sudo ln -s /etc/nginx/sites-available/chuchu /etc/nginx/sites-enabled/
 #   4. 测试: sudo nginx -t
 #   5. 重载: sudo systemctl reload nginx
 #   6. HTTPS: sudo certbot --nginx -d api.你的域名.com

@@ -100,7 +100,7 @@ function skillOut(row) {
 // Sessions
 // ------------------------------------------------------------
 async function createSession(userId) {
-  const token = `pdx_${randomUUID().replace(/-/g, '')}`;
+  const token = `cc_${randomUUID().replace(/-/g, '')}`;
   await Session.create({
     token,
     user_id: userId,
@@ -187,15 +187,15 @@ async function handleSendCode(body, clientIp) {
 
   try {
     await transporter.sendMail({
-      from: `"Pandora X" <${process.env.GMAIL_USER}>`,
+      from: `"楚楚智创" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: 'Pandora X — 邮箱验证码',
+      subject: '楚楚智创 — 邮箱验证码',
       html: `
         <div style="max-width:480px;margin:0 auto;padding:32px 24px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
-          <h2 style="margin:0 0 8px;font-size:22px;color:#1a1a2e;">Pandora X</h2>
-          <p style="margin:0 0 24px;color:#555;font-size:15px;">你正在注册 Pandora X 账户，以下是你的邮箱验证码：</p>
-          <div style="background:#f4f4f9;border-radius:12px;padding:20px;text-align:center;margin-bottom:24px;">
-            <span style="font-size:32px;font-weight:700;letter-spacing:6px;color:#1a1a2e;">${code}</span>
+          <h2 style="margin:0 0 8px;font-size:22px;color:#0d9488;">楚楚智创 · OPC孵化器</h2>
+          <p style="margin:0 0 24px;color:#555;font-size:15px;">你正在注册楚楚智创账户，以下是你的邮箱验证码：</p>
+          <div style="background:#f0faf6;border-radius:12px;padding:20px;text-align:center;margin-bottom:24px;">
+            <span style="font-size:32px;font-weight:700;letter-spacing:6px;color:#0d9488;">${code}</span>
           </div>
           <p style="margin:0 0 8px;color:#888;font-size:13px;">验证码 10 分钟内有效，请勿转发给他人。</p>
           <p style="margin:0;color:#aaa;font-size:12px;">如果这不是你发起的操作，请忽略此邮件。</p>
@@ -446,7 +446,7 @@ async function handleSendMessage(auth, body) {
   if (other.is_demo) {
     const replies = [
       '收到！这个想法不错，我研究一下。',
-      '欢迎来 Pandora X，有需要随时找我～',
+      '欢迎来楚楚智创，有需要随时找我～',
       '可以的，我这边有相关的 Skill，回头分享给你。',
       '感谢支持！记得关注一下我的新作品。',
       '这个需求挺常见的，建议去「需求广场」也发一条。',
@@ -477,7 +477,7 @@ const server = http.createServer(async (req, res) => {
   try {
     // Health
     if (req.method === 'GET' && pathname === '/health') {
-      return sendJson(res, 200, { ok: true, service: 'pandora-backend', db: 'mongodb', devMode: DEV_MODE });
+      return sendJson(res, 200, { ok: true, service: 'chuchu-backend', db: 'mongodb', devMode: DEV_MODE });
     }
 
     // ---- Public reads ----
