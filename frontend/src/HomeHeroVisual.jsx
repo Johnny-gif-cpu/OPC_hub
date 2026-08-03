@@ -6,12 +6,10 @@ const TARGET_SKILLS = 128;
 const TARGET_AUTHORS = 36;
 const TARGET_DOWNLOADS_K = 240;
 
-/** 悬停小方图：点击跳转 Pandora Box对应分类（browseCategory 须与 Browse 页分类一致） */
+/** 悬停小方图：点击跳转对应分类（browseCategory 须与 Browse 页分类一致） */
 const HERO_FLOATERS = [
-  { id: 'travel', posClass: 'home-hero-floater--travel', src: '/floaters/home-float-travel.png', label: '旅游攻略插图', caption: '制定属于你的旅游攻略', browseCategory: '旅游攻略' },
-  { id: 'fashion', posClass: 'home-hero-floater--fashion', src: '/floaters/home-float-fashion.png', label: '穿搭灵感插图', caption: '指定属于你的个人穿搭', browseCategory: '穿搭' },
-  { id: 'content', posClass: 'home-hero-floater--content', src: '/floaters/home-float-content.png', label: '内容创作插图', caption: '搭好你的灵感写作工作台', browseCategory: '内容创作' },
-  { id: 'community', posClass: 'home-hero-floater--community', src: '/floaters/home-float-community.png', label: '社群增长插图', caption: '把社群冷启动跑成一条曲线', browseCategory: '社群工具' },
+  { id: 'aigc', posClass: 'home-hero-floater--travel', src: '/floaters/home-float-travel.png', label: 'AIGC 插图', caption: '从提示词到作品，一键生成你的 AI 创意', browseCategory: 'AIGC' },
+  { id: 'content', posClass: 'home-hero-floater--fashion', src: '/floaters/home-float-fashion.png', label: '内容创作插图', caption: '搭好你的灵感写作工作台', browseCategory: '内容创作' },
 ];
 
 export function HomeHeroVisual() {

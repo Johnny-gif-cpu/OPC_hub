@@ -124,6 +124,7 @@ const catPaths = {
   旅游攻略: <><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></>,
   社群工具: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.5 3.8 5.6 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.6-3.8-9s1.3-6.5 3.8-9Z" /></>,
   账号流量: <><path d="M4 19V5M4 19h16M7.5 16l3.5-4 3 2.5L20 8" /></>,
+  AIGC: <><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m10 9 5 3-5 3V9Z"/></>,
   内容创作: <><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m10 9 5 3-5 3V9Z" /></>,
   产品设计: <><rect x="3" y="3" width="8" height="8" rx="1.6" /><rect x="13" y="3" width="8" height="8" rx="1.6" /><rect x="3" y="13" width="8" height="8" rx="1.6" /><rect x="13" y="13" width="8" height="8" rx="1.6" /></>,
   主机代理: <><rect x="3" y="4" width="18" height="6" rx="1.6" /><rect x="3" y="14" width="18" height="6" rx="1.6" /><path d="M7 7h.01M7 17h.01" /></>,
@@ -150,7 +151,7 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h4>平台</h4>
-            <a onClick={() => navigate('/browse')}>智能工坊</a>
+            <a onClick={() => navigate('/browse')}>Skill广场</a>
             <a onClick={() => navigate('/requests')}>需求广场</a>
             <a onClick={() => navigate('/pioneer')}>楚楚先锋榜</a>
             <a onClick={() => navigate('/upload')}>上传智能体</a>

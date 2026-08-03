@@ -80,14 +80,13 @@ function publicUser(row) {
   };
 }
 
-// Map a DB skill row to the frontend's shape (category/skillKind/desc).
+// Map a DB skill row to the frontend's shape (category/desc).
 function skillOut(row) {
   return {
     id: row._id,
     title: row.title,
     desc: row.descr,
     category: row.category,
-    skillKind: row.skill_kind,
     downloads: row.downloads,
     slug: row.slug,
     status: row.status,
@@ -270,16 +269,14 @@ async function handleLogin(body, clientIp) {
 }
 
 // ============================================================
-// Data: Skills — GET /api/skills?category=&kind=&hot=
+// Data: Skills — GET /api/skills?category=&hot=
 // ============================================================
 async function handleListSkills(url) {
   const category = url.searchParams.get('category');
-  const kind = url.searchParams.get('kind');
   const hot = url.searchParams.get('hot');
 
   const filter = { status: '已发布' };
   if (category && category !== '全部') filter.category = category;
-  if (kind) filter.skill_kind = kind;
   if (hot === '1') filter.is_hot = true;
 
   const rows = await Skill.find(filter).sort({ sort: 1, created_at: -1 }).lean();
@@ -315,19 +312,18 @@ async function handleMySkills(auth) {
 
 // ============================================================
 // Upload skill — POST /api/upload-skill (auth)
-//   { title, category, description, skillKind? }
+//   { title, category, description, skillKind? }  // skillKind is ignored (2 categories only)
 // ============================================================
 async function handleUploadSkill(auth, body) {
   const title = String(body.title || '').trim();
   const category = String(body.category || body.industry || '').trim();
   const description = String(body.description || '').trim();
-  const skillKind = body.skillKind === 'commercial' ? 'commercial' : 'daily';
   if (!title || !category || !description) return { status: 400, data: { message: '缺少必要字段' } };
 
   const id = `u_${randomUUID().slice(0, 8)}`;
   const slug = `user-${id}`;
   const row = await Skill.create({
-    _id: id, title, descr: description, category, skill_kind: skillKind,
+    _id: id, title, descr: description, category,
     downloads: '0', slug, status: '草稿',
     author_id: auth.user._id, author_email: auth.user.email,
     is_hot: false, sort: 999,

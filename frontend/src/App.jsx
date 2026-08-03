@@ -5,16 +5,15 @@ import { LandingPage } from './LandingPage.jsx';
 import { DeployPanel } from './DeployPanel.jsx';
 import {
   Brand, Footer, getSession, clearSession, setSession, hasSeen, markSeen, SESSION_KEY,
-  IconExplore, IconBox, IconBounty, IconMedal, IconUser, IconChevronDown,
+  IconExplore, IconBox, IconBounty, IconMedal, IconUser,
   IconBolt, IconDownload, ShareIcon, CategoryIcon,
 } from './shared.jsx';
 import { api, useAsync } from './api.js';
 import { SocialProvider, SocialDock, ChatLayer } from './Social.jsx';
 import {
-  skills as fallbackSkills, homeHotSkills as fallbackHot,
+  skills as fallbackSkills,
   plazaRequests as fallbackRequests, pioneerBoard as fallbackPioneers,
-  DAILY_SKILL_CATEGORIES, COMMERCIAL_SKILL_CATEGORIES, ALL_SKILL_CATEGORIES,
-  skillKindLabel, skillKindCornerLine, skillIdNumber, parseDownloads, skillSlug,
+  ALL_SKILL_CATEGORIES, parseDownloads, skillSlug,
 } from './data.js';
 
 // ============================================================
@@ -22,7 +21,7 @@ import {
 // ============================================================
 const NAV_LINKS = [
   { path: '/', label: '首页', icon: IconExplore },
-  { path: '/browse', label: '智能工坊', icon: IconBox },
+  { path: '/browse', label: 'Skill广场', icon: IconBox },
   { path: '/requests', label: '需求广场', icon: IconBounty },
   { path: '/pioneer', label: '楚楚先锋榜', icon: IconMedal },
   { path: '/profile', label: '个人中心', icon: IconUser },
@@ -157,9 +156,9 @@ function Shell({ children, title, subtitle, badge, action }) {
 function SkillCard({ skill }) {
   const navigate = useNavigate();
   return (
-    <article className={`skill-card skill-card--hover-actions skill-card--${skill.skillKind}`}>
+    <article className="skill-card skill-card--hover-actions">
       <div className="skill-top">
-        <span className="tag skill-corner-tag">{skillKindCornerLine(skill)}</span>
+        <span className="tag skill-corner-tag" style={{ background: 'rgba(13,148,136,0.12)', color: '#0d9488' }}>{skill.category}</span>
         <span className="downloads"><IconDownload /> {skill.downloads}</span>
       </div>
       <h3>{skill.title}</h3>
@@ -210,33 +209,23 @@ function EmptyState({ text }) {
 function HomePage() {
   const navigate = useNavigate();
   const session = getSession();
-  const [recommendMode, setRecommendMode] = React.useState('hot');
-  const [kindFilter, setKindFilter] = React.useState('all');
-  const [kindFilterOpen, setKindFilterOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
-  const dropdownRef = React.useRef(null);
 
   // Load the full catalog from the backend (fallback to bundled data if offline).
   const { data: skills, loading } = useAsync(() => api.listSkills(), [], fallbackSkills);
 
-  React.useEffect(() => {
-    function handleClickOutside(e) { if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setKindFilterOpen(false); }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const kindFilterLabel = kindFilter === 'all' ? '全部' : kindFilter === 'daily' ? '日常' : '企业';
-
   const featuredSkills = React.useMemo(() => {
     const list = skills || [];
-    const base = recommendMode === 'hot'
-      ? list.filter((s) => s.isHot ?? fallbackHot.some((h) => h.id === s.id))
-      : [...list].sort((a, b) => skillIdNumber(b.id) - skillIdNumber(a.id)).slice(0, 12);
-    const pool = (recommendMode === 'hot' && base.length === 0) ? list : base;
-    const kindFiltered = kindFilter === 'all' ? pool : pool.filter((s) => s.skillKind === kindFilter);
-    if (recommendMode === 'hot') return [...kindFiltered].sort((a, b) => parseDownloads(b.downloads) - parseDownloads(a.downloads)).slice(0, 12);
-    return kindFiltered;
-  }, [skills, recommendMode, kindFilter]);
+    const term = searchTerm.trim().toLowerCase();
+    const pool = term
+      ? list.filter((s) =>
+          [s.title, s.desc, s.category, s.author]
+            .filter(Boolean)
+            .some((f) => String(f).toLowerCase().includes(term)),
+        )
+      : list;
+    return [...pool].sort((a, b) => parseDownloads(b.downloads) - parseDownloads(a.downloads));
+  }, [skills, searchTerm]);
 
   const categoryCounts = React.useMemo(() => {
     const m = {};
@@ -284,7 +273,7 @@ function HomePage() {
                 <p className="badge">OPC 智能体孵化平台</p>
                 <h1 className="home-hero-title">
                   <span className="home-hero-title-line">发现并一键部署</span>
-                  <span className="home-hero-title-gradient">日常 · 企业智能体</span>
+                  <span className="home-hero-title-gradient">AIGC · 内容创作</span>
                 </h1>
                 <p className="home-hero-lead">覆盖生活灵感与增长交付：浏览、部署、上传与分享，一套平台连接荆州企业与创新场景。</p>
                 <div className="hero-actions">
@@ -293,7 +282,8 @@ function HomePage() {
                 </div>
                 <ul className="home-hero-chips" aria-label="亮点">
                   <li>实时能力目录</li>
-                  <li>日常 / 企业双轨</li>
+                  <li>AIGC 视频创作</li>
+                  <li>内容创作引擎</li>
                   <li>一键复制部署</li>
                 </ul>
               </div>
@@ -308,30 +298,12 @@ function HomePage() {
               <div key={cat} className="cat-card" onClick={() => navigate(`/browse?category=${encodeURIComponent(cat)}`)} role="button" tabIndex={0}>
                 <span className="cat-icon"><CategoryIcon category={cat} size={24} /></span>
                 <span className="cat-name">{cat}</span>
-                <span className="cat-meta">{DAILY_SKILL_CATEGORIES.includes(cat) ? '日常' : '企业'} · {categoryCounts[cat] || 0} 个</span>
+                <span className="cat-meta">{categoryCounts[cat] || 0} 个</span>
               </div>
             ))}
           </section>
 
-          <section className="section-header" style={{ alignItems: 'center' }}>
-            <h2>热门推荐</h2>
-            <div className="section-filters">
-              <div className="dropdown-wrapper" ref={dropdownRef}>
-                <button type="button" className="dropdown-trigger" onClick={() => setKindFilterOpen(!kindFilterOpen)}>{kindFilterLabel}<IconChevronDown /></button>
-                {kindFilterOpen && (
-                  <div className="dropdown-menu">
-                    <button type="button" className={`dropdown-item ${kindFilter === 'all' ? 'active' : ''}`} onClick={() => { setKindFilter('all'); setKindFilterOpen(false); }}>全部</button>
-                    <button type="button" className={`dropdown-item ${kindFilter === 'daily' ? 'active' : ''}`} onClick={() => { setKindFilter('daily'); setKindFilterOpen(false); }}>日常</button>
-                    <button type="button" className={`dropdown-item ${kindFilter === 'commercial' ? 'active' : ''}`} onClick={() => { setKindFilter('commercial'); setKindFilterOpen(false); }}>企业</button>
-                  </div>
-                )}
-              </div>
-              <div className="segmented" role="group" aria-label="排序方式">
-                <button type="button" className={`seg ${recommendMode === 'hot' ? 'active' : ''}`} onClick={() => setRecommendMode('hot')}>热门</button>
-                <button type="button" className={`seg ${recommendMode === 'latest' ? 'active' : ''}`} onClick={() => setRecommendMode('latest')}>最新</button>
-              </div>
-            </div>
-          </section>
+          <section className="section-header"><h2>全部智能体</h2></section>
           {loading ? <SkillGridSkeleton count={8} /> : (
             <section className="grid grid--4">
               {featuredSkills.map((skill) => <SkillCard key={skill.id} skill={skill} />)}
@@ -340,7 +312,7 @@ function HomePage() {
 
           <section className="section-header"><h2>小白入门区</h2></section>
           <section className="grid grid--4">
-            {['什么是楚楚智创？', '如何安装第一个框架？', '如何一键部署智能体？'].map((item) => (
+            {['什么是 AIGC 智能体？', '如何用智能体做内容创作？', '如何一键部署智能体？'].map((item) => (
               <article className="skill-card" key={item}><h3>{item}</h3><p>面向新用户的分步骤指引，帮助你快速上手。</p></article>
             ))}
             <article className="skill-card">
@@ -392,12 +364,11 @@ function BrowsePage() {
     setSearchParams(next, { replace: true });
   }
 
-  const activeSample = filtered.find((s) => s.category === activeCategory) || null;
   const titleHead = term
     ? `搜索 “${term}”`
     : activeCategory === '全部'
       ? '全部智能体'
-      : activeSample ? `${activeCategory} · ${skillKindLabel(activeSample.skillKind)} 智能体` : `${activeCategory} 智能体`;
+      : `${activeCategory} 智能体`;
 
   return (
     <Shell
@@ -414,18 +385,9 @@ function BrowsePage() {
       )}
       <section className="filter-bar">
         <button type="button" className={`filter-pill ${activeCategory === '全部' ? 'active' : ''}`} onClick={() => setCategory('全部')}>全部</button>
-        <div className="filter-group">
-          <span className="filter-group-label">日常</span>
-          {DAILY_SKILL_CATEGORIES.map((cat) => (
-            <button key={cat} type="button" className={`filter-pill ${activeCategory === cat ? 'active' : ''}`} onClick={() => setCategory(cat)}>{cat}</button>
-          ))}
-        </div>
-        <div className="filter-group">
-          <span className="filter-group-label">企业</span>
-          {COMMERCIAL_SKILL_CATEGORIES.map((cat) => (
-            <button key={cat} type="button" className={`filter-pill ${activeCategory === cat ? 'active' : ''}`} onClick={() => setCategory(cat)}>{cat}</button>
-          ))}
-        </div>
+        {ALL_SKILL_CATEGORIES.map((cat) => (
+          <button key={cat} type="button" className={`filter-pill ${activeCategory === cat ? 'active' : ''}`} onClick={() => setCategory(cat)}>{cat}</button>
+        ))}
       </section>
       {loading ? <SkillGridSkeleton count={8} /> : filtered.length === 0 ? (
         <EmptyState text="该分类下暂时还没有智能体，换个分类看看吧。" />
@@ -471,8 +433,8 @@ function SkillDetailPage() {
       <section className="detail-grid">
         <div className="surface-card detail-card">
           <div className="detail-card-header">
-            <span className="tag skill-corner-tag" style={skill.skillKind === 'daily' ? { background: 'rgba(13,148,136,0.12)', color: '#0d9488' } : { background: 'rgba(183,149,11,0.12)', color: '#8a6d0d' }}>
-              {skillKindLabel(skill.skillKind)} · {skill.category}
+            <span className="tag skill-corner-tag" style={{ background: 'rgba(13,148,136,0.12)', color: '#0d9488' }}>
+              {skill.category}
             </span>
             <span className="downloads"><IconDownload /> {skill.downloads} 下载</span>
           </div>
@@ -643,13 +605,11 @@ function UploadPage() {
   const navigate = useNavigate();
   const session = getSession();
   const [name, setName] = React.useState('');
-  const [category, setCategory] = React.useState(DAILY_SKILL_CATEGORIES[0]);
+  const [category, setCategory] = React.useState(ALL_SKILL_CATEGORIES[0]);
   const [desc, setDesc] = React.useState('');
   const [msg, setMsg] = React.useState('');
   const [msgType, setMsgType] = React.useState('info');
   const [submitting, setSubmitting] = React.useState(false);
-
-  const skillKind = COMMERCIAL_SKILL_CATEGORIES.includes(category) ? 'commercial' : 'daily';
 
   async function submit(e) {
     e.preventDefault();
@@ -657,7 +617,7 @@ function UploadPage() {
     setSubmitting(true);
     setMsg('');
     try {
-      const res = await api.uploadSkill({ title: name.trim(), category, description: desc.trim(), skillKind });
+      const res = await api.uploadSkill({ title: name.trim(), category, description: desc.trim() });
       setMsgType('success');
       setMsg(res.message || '已提交');
       setName(''); setDesc('');
@@ -675,13 +635,12 @@ function UploadPage() {
   }
 
   return (
-    <Shell badge="Upload" title="填写智能体信息" subtitle="选择日常或企业下的功能分类，填写名称与描述。提交后将保存为草稿，出现在「我的智能体」。" action={<button type="button" className="btn--ghost" onClick={() => navigate('/browse')}>浏览智能体</button>}>
+    <Shell badge="Upload" title="填写智能体信息" subtitle="选择功能分类，填写名称与描述。提交后将保存为草稿，出现在「我的智能体」。" action={<button type="button" className="btn--ghost" onClick={() => navigate('/browse')}>浏览智能体</button>}>
       <form className="surface-card upload-form" onSubmit={submit}>
         <label>智能体名称<input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="例如：周末路书助手" required /></label>
         <label>功能分类
           <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            <optgroup label="日常智能体">{DAILY_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}</optgroup>
-            <optgroup label="企业智能体">{COMMERCIAL_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}</optgroup>
+            {ALL_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </label>
         <label>简介<textarea rows="4" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="介绍这个智能体的用途" required /></label>
@@ -717,7 +676,7 @@ function MySkillsPage() {
           {list.map((skill) => (
             <article className="skill-card" key={skill.id}>
               <div className="skill-top">
-                <span className="tag skill-corner-tag">{skillKindCornerLine(skill)}</span>
+                <span className="tag skill-corner-tag">{skill.category}</span>
                 <span className="downloads">{skill.status}</span>
               </div>
               <h3>{skill.title}</h3>
@@ -794,7 +753,7 @@ const AUTH_SLIDES = [
   {
     key: 'discover',
     eyebrow: '探索',
-    title: '浏览日常与企业级智能体',
+    title: '浏览 AIGC 与内容创作智能体',
     text: '从美食穿搭到增长获客，数百个高质量智能体即开即用，按场景分类一键找到。',
     visual: 'cards',
   },
@@ -824,12 +783,8 @@ const AUTH_SLIDES = [
 function AuthSlideVisual({ visual }) {
   if (visual === 'cards') {
     const cards = [
-      { t: '美食', cat: '美食', g: 'linear-gradient(140deg,#fb923c,#ea580c)' },
-      { t: '穿搭', cat: '穿搭', g: 'linear-gradient(140deg,#f472b6,#db2777)' },
-      { t: '旅游', cat: '旅游攻略', g: 'linear-gradient(140deg,#38bdf8,#2563eb)' },
-      { t: '社群', cat: '社群工具', g: 'linear-gradient(140deg,#34d399,#059669)' },
-      { t: '内容', cat: '内容创作', g: 'linear-gradient(140deg,#2dd4bf,#0d9488)' },
-      { t: '增长', cat: '账号流量', g: 'linear-gradient(140deg,#fbbf24,#d97706)' },
+      { t: 'AIGC', cat: 'AIGC', g: 'linear-gradient(140deg,#0d9488,#14b8a6)' },
+      { t: '内容创作', cat: '内容创作', g: 'linear-gradient(140deg,#b7950b,#d97706)' },
     ];
     return (
       <div className="auth-vis auth-vis--cards">

@@ -10,7 +10,7 @@ const FeatIconPlaza = () => (<svg width="26" height="26" viewBox="0 0 24 24" {..
 const FeatIconReward = () => (<svg width="26" height="26" viewBox="0 0 24 24" {...sw}><circle cx="12" cy="9" r="5" /><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5" /></svg>);
 
 const FEATURES = [
-  { Icon: FeatIconCatalog, title: 'Skills 集合', text: '日常与企业双轨能力目录，覆盖美食、穿搭、社群增长、内容创作等场景，开箱即用。' },
+  { Icon: FeatIconCatalog, title: 'Skills 集合', text: 'AIGC 与内容创作双分类能力目录，覆盖提示词、文生图、视频生成与写作分发等场景，开箱即用。' },
   { Icon: FeatIconDeploy, title: '一键部署', text: '选择 Claude Code、Codex、Cursor 等框架，复制命令粘贴到终端即可安装，门槛最低。' },
   { Icon: FeatIconPlaza, title: '需求广场', text: '企业发布需求，创作者报名对接，从工单到交付，让好 Skill 直接变现。' },
   { Icon: FeatIconReward, title: '创作者激励', text: '楚楚先锋榜：榜单、官方推荐位与企业优先匹配，激励下一代 OPC 创业者。' },
@@ -21,12 +21,8 @@ const FEATURES = [
 // everything is SVG + CSS keyframes for a premium animated feel).
 // ============================================================
 const CAT_CARDS = [
-  { t: '美食', cat: '美食', g: 'linear-gradient(140deg,#fb923c,#ea580c)' },
-  { t: '穿搭', cat: '穿搭', g: 'linear-gradient(140deg,#f472b6,#db2777)' },
-  { t: '旅游', cat: '旅游攻略', g: 'linear-gradient(140deg,#38bdf8,#2563eb)' },
-  { t: '社群', cat: '社群工具', g: 'linear-gradient(140deg,#34d399,#059669)' },
-  { t: '内容', cat: '内容创作', g: 'linear-gradient(140deg,#2dd4bf,#0d9488)' },
-  { t: '增长', cat: '账号流量', g: 'linear-gradient(140deg,#fbbf24,#d97706)' },
+  { t: 'AIGC', cat: 'AIGC', g: 'linear-gradient(140deg,#0d9488,#14b8a6)' },
+  { t: '内容创作', cat: '内容创作', g: 'linear-gradient(140deg,#b7950b,#d97706)' },
 ];
 
 function VisualCatalog() {
@@ -112,9 +108,9 @@ function VisualReward() {
 const DETAILS = [
   {
     key: 'catalog', no: '01', eyebrow: 'Skills 集合', Visual: VisualCatalog, flip: false,
-    title: '一个目录，连接日常灵感与企业增长',
-    text: '我们把零散的 AI 能力沉淀成结构化的 Skill 目录：日常轨覆盖美食、穿搭、旅游、社群；企业轨覆盖内容创作、账号流量、产品设计与主机代理。每个 Skill 都标注场景、分类与部署量，找得到、选得准。',
-    points: ['日常 / 企业双轨分类，按场景快速定位', '统一描述与部署量��质量一目了然', '持续扩充的精选目录，开箱即用'],
+    title: '一个目录，连接 AIGC 与内容创作',
+    text: '我们把零散的 AI 能力沉淀成结构化的 Skill 目录：AIGC 覆盖提示词、文生图、视频生成与 AI 工具链；内容创作覆盖写作、脚本、排版与多平台分发。每个 Skill 都标注场景、分类与部署量，找得到、选得准。',
+    points: ['AIGC / 内容创作双分类，按场景快速定位', '统一描述与部署量，质量一目了然', '持续扩充的精选目录，开箱即用'],
   },
   {
     key: 'deploy', no: '02', eyebrow: '一键部署', Visual: VisualDeploy, flip: true,
@@ -217,7 +213,7 @@ export function LandingPage() {
 
         <section className="landing-features">
           <div className="landing-features-head">
-            <h2>一个平台，连接<span className="text-gradient">日常灵感</span>与<span className="text-gradient">企业增长</span></h2>
+            <h2>一个平台，连接<span className="text-gradient">AIGC</span>与<span className="text-gradient">内容创作</span></h2>
             <p>从发现到部署，从需求到变现 —— 楚楚智创为下一代 AI 使用者降低每一道门槛。</p>
           </div>
           <div className="landing-feature-grid">

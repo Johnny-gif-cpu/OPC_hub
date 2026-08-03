@@ -58,7 +58,6 @@ const skillSchema = new mongoose.Schema({
   title:       { type: String, required: true },
   descr:       { type: String, required: true },
   category:    { type: String, required: true },
-  skill_kind:  { type: String, enum: ['daily', 'commercial'], default: 'daily' },
   downloads:   { type: String, default: '0' },
   slug:        { type: String },
   status:      { type: String, default: '已发布' },
@@ -70,7 +69,6 @@ const skillSchema = new mongoose.Schema({
 
 // Allow both custom string _id and auto ObjectId
 skillSchema.index({ category: 1 });
-skillSchema.index({ skill_kind: 1 });
 
 export const Skill = mongoose.model('Skill', skillSchema);
 
