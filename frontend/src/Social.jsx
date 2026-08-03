@@ -29,7 +29,7 @@ export function SocialProvider({ children }) {
   React.useEffect(() => {
     function sync() { setToken(getSession()?.token || null); }
     window.addEventListener('storage', sync);
-    window.addEventListener('pandora-session', sync);
+    window.addEventListener('chuchu-session', sync);
     return () => { window.removeEventListener('storage', sync); window.removeEventListener('pandora-session', sync); };
   }, []);
   const loggedIn = !!token;

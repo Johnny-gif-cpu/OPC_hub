@@ -1,5 +1,5 @@
 // ============================================================
-// Pandora X — shared data (skills, categories, deploy config)
+// 楚楚智创 · OPC孵化器 — shared data (智能体, 分类, 部署配置)
 // ============================================================
 
 /** 日常 Skills 功能分类 */
@@ -73,7 +73,7 @@ const HOME_HOT_SKILL_IDS = ['s6', 's14', 's8', 's10', 's2', 's16', 's4', 's12', 
 export const homeHotSkills = HOME_HOT_SKILL_IDS.map((id) => skills.find((s) => s.id === id)).filter(Boolean);
 
 export const mySkills = [
-  { title: '我的选题日历 Skill', category: '账号流量', skillKind: 'commercial', status: '已发布' },
+  { title: '我的选题日历智能体', category: '账号流量', skillKind: 'commercial', status: '已发布' },
   { title: '周末路书助手', category: '旅游攻略', skillKind: 'daily', status: '草稿' },
 ];
 
@@ -99,10 +99,10 @@ export const pioneerBoard = [
 // 命令为展示版；接真实 CLI 时只改此处。
 // ============================================================
 export const DEPLOY_FRAMEWORKS = [
-  { id: 'claude-code', name: 'Claude Code', short: 'CC', accent: '#d97757', cmd: (slug) => `npx pandora add ${slug} --target claude-code` },
-  { id: 'codex', name: 'Codex', short: 'Cx', accent: '#10a37f', cmd: (slug) => `npx pandora add ${slug} --target codex` },
-  { id: 'cursor', name: 'Cursor', short: 'Cu', accent: '#6e9bff', cmd: (slug) => `npx pandora add ${slug} --target cursor` },
-  { id: 'openclaw', name: 'OpenClaw', short: 'OC', accent: '#f59e0b', cmd: (slug) => `npx pandora add ${slug} --target openclaw` },
-  { id: 'hermes', name: 'Hermes', short: 'Hm', accent: '#22d3ee', cmd: (slug) => `npx pandora add ${slug} --target hermes` },
-  { id: 'generic', name: '通用 / 更多', short: '··', accent: '#a78bfa', cmd: (slug) => `npx pandora pull ${slug}   # 下载 .skill.md，放入对应工具目录` },
+  { id: 'claude-code', name: 'Claude Code', short: 'CC', accent: '#d97757', cmd: (slug) => `npx opc add ${slug} --target claude-code` },
+  { id: 'codex', name: 'Codex', short: 'Cx', accent: '#10a37f', cmd: (slug) => `npx opc add ${slug} --target codex` },
+  { id: 'cursor', name: 'Cursor', short: 'Cu', accent: '#6e9bff', cmd: (slug) => `npx opc add ${slug} --target cursor` },
+  { id: 'openclaw', name: 'OpenClaw', short: 'OC', accent: '#f59e0b', cmd: (slug) => `npx opc add ${slug} --target openclaw` },
+  { id: 'hermes', name: 'Hermes', short: 'Hm', accent: '#22d3ee', cmd: (slug) => `npx opc add ${slug} --target hermes` },
+  { id: 'generic', name: '通用 / 更多', short: '··', accent: '#a78bfa', cmd: (slug) => `npx opc pull ${slug}   # 下载 .skill.md，放入对应工具目录` },
 ];

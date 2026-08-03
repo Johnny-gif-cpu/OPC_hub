@@ -57,11 +57,11 @@ export function DeployPanel({ skill, defaultFramework = 'claude-code' }) {
 
       <p className="deploy-hint">
         <IconBolt size={14} />
-        <span>粘贴到终端运行，Skill 将自动安装到 <strong>{fw.name}</strong> 对应目录，无需手动配置。</span>
+        <span>粘贴到终端运行，智能体将自动安装到 <strong>{fw.name}</strong> 对应目录，无需手动配置。</span>
       </p>
 
       <p className="deploy-safe">
-        安全提示：执行前请确认 Skill 来源与权限说明。当前为演示命令，正式版将接入官方 CLI 与签名校验。
+        安全提示：执行前请确认智能体来源与权限说明。当前为演示命令，正式版将接入官方 CLI 与签名校验。
       </p>
     </aside>
   );

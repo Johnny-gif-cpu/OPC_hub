@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 // ============================================================
 // Session helpers
 // ============================================================
-export const SESSION_KEY = 'pandora_session';
-export const SEEN_KEY = 'pandora_seen';
+export const SESSION_KEY = 'chuchu_session';
+export const SEEN_KEY = 'chuchu_seen';
 // API_BASE is now handled by api.js (reads VITE_API_BASE env var).
 // Keep this export for backward compat but default to empty (= relative).
 export const API_BASE = '';
@@ -13,7 +13,7 @@ export const API_BASE = '';
 export function getSession() {
   try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; }
 }
-function emitSession() { try { window.dispatchEvent(new Event('pandora-session')); } catch { /* ignore */ } }
+function emitSession() { try { window.dispatchEvent(new Event('chuchu-session')); } catch { /* ignore */ } }
 export function setSession(value) {
   try { localStorage.setItem(SESSION_KEY, JSON.stringify(value)); } catch { /* ignore */ }
   emitSession();
@@ -29,9 +29,14 @@ export function BrandMark({ size = 34 }) {
   return (
     <span className="brand-mark" style={{ width: size, height: size }}>
       <svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M4 9.5 12 4l8 5.5v0L12 13 4 9.5Z" fill="#fff" fillOpacity="0.95" />
-        <path d="M4 9.5V16l8 4 8-4V9.5L12 13 4 9.5Z" fill="#fff" fillOpacity="0.55" />
-        <circle cx="12" cy="11" r="1.6" fill="#7c3aed" />
+        {/* 城墙垛口 */}
+        <path d="M4 16.6v-3.1h2.5v3.1h3v-3.1h2.5v3.1h3v-3.1h1.4v3.1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        {/* 城门拱 */}
+        <path d="M10.3 16.6v-1.7a1.7 1.7 0 0 1 3.4 0v1.7" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+        {/* 楚式云纹 */}
+        <path d="M5.6 20c2.7 1 6 1 8.7 0s4.6-2 3.6-3.5c-.5-.8-1.4-.9-2-.4-.9.7-.7 1.9.2 2.4" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" opacity="0.92" />
+        {/* 青铜钉 */}
+        <circle cx="12" cy="13" r="1.05" fill="#d4a92c" />
       </svg>
     </span>
   );
@@ -42,7 +47,7 @@ export function Brand({ to = '/', markSize = 34, onClick }) {
   return (
     <span className="brand" onClick={() => { if (onClick) onClick(); else navigate(to); }} role="link" tabIndex={0}>
       <BrandMark size={markSize} />
-      <span className="brand-word">Pandora <b>X</b></span>
+      <span className="brand-word">楚楚智创<b> OPC 孵化器</b></span>
     </span>
   );
 }
@@ -137,7 +142,7 @@ export function Footer() {
         <div className="footer-grid">
           <div className="footer-col footer-col--brand">
             <Brand />
-            <p>汇集众智，像潘多拉魔盒一样打开 AI 时代的无限可能。发现、部署、分享、协作 —— 连接日常灵感与企业增长。</p>
+            <p>汇聚荆楚智慧，为 AI 智能体时代的创新者提供发现、部署与协作的孵化平台。</p>
             <div className="footer-social">
               <span className="footer-social-icon" aria-label="GitHub"><IconGitHub /></span>
               <span className="footer-social-icon" aria-label="Twitter"><IconTwitter /></span>
@@ -145,10 +150,10 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h4>平台</h4>
-            <a onClick={() => navigate('/browse')}>Pandora Box</a>
+            <a onClick={() => navigate('/browse')}>智能工坊</a>
             <a onClick={() => navigate('/requests')}>需求广场</a>
-            <a onClick={() => navigate('/pioneer')}>Pandora X 先锋</a>
-            <a onClick={() => navigate('/upload')}>上传 Skill</a>
+            <a onClick={() => navigate('/pioneer')}>楚楚先锋榜</a>
+            <a onClick={() => navigate('/upload')}>上传智能体</a>
           </div>
           <div className="footer-col">
             <h4>资源</h4>
@@ -159,11 +164,11 @@ export function Footer() {
           <div className="footer-col">
             <h4>支持</h4>
             <a href="mailto:support@weopc.com.cn">support@weopc.com.cn</a>
-            <p className="footer-safe">部署和执行 Skill 前，请先查看来源与权限说明。</p>
+            <p className="footer-safe">部署和执行智能体前，请先查看来源与权限说明。</p>
           </div>
         </div>
         <div className="footer-bottom">
-          <span>&copy; {new Date().getFullYear()} Pandora X</span>
+          <span>&copy; {new Date().getFullYear()} 楚楚智创 · OPC孵化器</span>
           <span className="footer-dot">·</span>
           <span>演示项目</span>
         </div>

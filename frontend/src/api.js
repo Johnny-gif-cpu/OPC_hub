@@ -1,17 +1,15 @@
 import React from 'react';
 
-// ============================================================
-// Pandora X — API client
+// 楚楚智创 · OPC孵化器 — API client
 // Thin fetch wrapper around the backend. Centralizes base URL,
 // JSON handling, and the bearer token. Token is persisted in the
 // session object (localStorage) by shared.jsx.
 //
 // In dev:     Vite proxies /api → localhost:4000 (see vite.config.js)
 // In prod:    Nginx proxies /api → backend (or use env var)
-// ============================================================
 export const API_BASE = import.meta.env.VITE_API_BASE || '';
 
-const SESSION_KEY = 'pandora_session';
+const SESSION_KEY = 'chuchu_session';
 
 function readToken() {
   try {
