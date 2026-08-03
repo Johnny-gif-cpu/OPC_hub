@@ -975,7 +975,7 @@ function LoginPage() {
           <h1>登录</h1>
           <p className="subtitle">使用邮箱和密码登录</p>
           <form onSubmit={login}>
-            <div className="form-group"><label>邮箱地址</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" required /></div>
+            <div className="form-group"><label>邮箱/手机号</label><input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="请输入邮箱或手机号" required /></div>
             <div className="form-group"><label>密码</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="请输入密码" minLength={6} required /></div>
             <button type="submit" className="btn--primary btn--full" disabled={loading}>{loading ? '登录中...' : '登录'}</button>
           </form>

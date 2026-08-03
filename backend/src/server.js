@@ -259,7 +259,7 @@ async function handleLogin(body, clientIp) {
     return { status: 429, data: { message: `请求太频繁，请 ${Math.ceil(rl.resetMs / 1000)} 秒后再试` } };
   }
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ $or: [{ email }, { phone: email }] });
   if (!user) return { status: 401, data: { message: '邮箱或密码错误' } };
   const match = await bcrypt.compare(password, user.password);
   if (!match) return { status: 401, data: { message: '邮箱或密码错误' } };

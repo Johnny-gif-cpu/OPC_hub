@@ -21,6 +21,7 @@ const DEMO_USERS = [
   { email: 'mira@chuchu-ai.cn', name: 'Mira_7', avatar: '🌷', headline: '新锐先锋 · 日常场景作者', bio: '6 个生活类爆款，热衷穿搭、美食与微旅行。' },
   { email: 'kite@chuchu-ai.cn', name: 'KiteWorks', avatar: '🪁', headline: '企业伙伴 · 社群与工具链', bio: '已签约 3 家企业客户，主攻社群冷启动与工具链。' },
   { email: 'assistant@chuchu-ai.cn', name: '楚楚小助手', avatar: '🏛️', headline: '官方账号 · 你的向导', bio: '有任何关于发布、部署与激励的问题，随时找我。' },
+  { email: '123456@qq.com', name: '内测用户', avatar: '🧪', headline: '内测账号 · 抢先体验', bio: '楚楚智创内测用户，体验最新功能。' },
 ];
 
 // Welcome DM that the official assistant sends to every new user.
@@ -97,6 +98,17 @@ export async function seed() {
       { upsert: true, new: false }
     );
   }
+
+  // Test account with simple password '123456' — separate upsert so the
+  // demo password stays 'chuchu123' while this account logs in with 123456.
+  // ($set on password: the DEMO_USERS loop above may already have inserted
+  // this user with the demo password, so $setOnInsert alone wouldn't fix it.)
+  const testHashed = bcrypt.hashSync('123456', 10);
+  await User.findOneAndUpdate(
+    { email: '123456@qq.com' },
+    { $set: { password: testHashed }, $setOnInsert: { email: '123456@qq.com', name: '内测用户', avatar: '🧪', headline: '内测账号 · 抢先体验', bio: '楚楚智创内测用户，体验最新功能。', is_demo: true } },
+    { upsert: true, new: false }
+  );
 
   // ---- Skills (upsert by _id) ----
   const demoEmail = 'demo@chuchu-ai.cn';
