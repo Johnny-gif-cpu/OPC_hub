@@ -104,5 +104,5 @@ export const DEPLOY_FRAMEWORKS = [
   { id: 'cursor', name: 'Cursor', short: 'Cu', accent: '#6e9bff', cmd: (slug) => `npx opc add ${slug} --target cursor` },
   { id: 'openclaw', name: 'OpenClaw', short: 'OC', accent: '#f59e0b', cmd: (slug) => `npx opc add ${slug} --target openclaw` },
   { id: 'hermes', name: 'Hermes', short: 'Hm', accent: '#22d3ee', cmd: (slug) => `npx opc add ${slug} --target hermes` },
-  { id: 'generic', name: '通用 / 更多', short: '··', accent: '#a78bfa', cmd: (slug) => `npx opc pull ${slug}   # 下载 .skill.md，放入对应工具目录` },
+  { id: 'generic', name: '通用 / 更多', short: '··', accent: '#0d9488', cmd: (slug) => `npx opc pull ${slug}   # 下载 .skill.md，放入对应工具目录` },
 ];

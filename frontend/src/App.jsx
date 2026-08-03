@@ -859,16 +859,16 @@ function AuthSlideVisual({ visual }) {
   if (visual === 'chat') {
     return (
       <div className="auth-vis auth-vis--chat">
-        <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#8b5cf6,#6d28d9)' }}>R</span><span className="auth-chat-bubble">这个搭配智能体太好用了！</span></div>
+        <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#0d9488,#0f766e)' }}>R</span><span className="auth-chat-bubble">这个搭配智能体太好用了！</span></div>
         <div className="auth-chat-row mine"><span className="auth-chat-bubble mine">谢谢，刚更新了新版本</span></div>
-        <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#f472b6,#db2777)' }}>M</span><span className="auth-chat-bubble">求一个旅游路书的合作</span></div>
+        <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#b7950b,#8a6d0d)' }}>M</span><span className="auth-chat-bubble">求一个旅游路书的合作</span></div>
         <div className="auth-chat-typing"><i /><i /><i /></div>
       </div>
     );
   }
   return (
     <div className="auth-vis auth-vis--board">
-      {[{ n: 'RiverFlow', g: 'linear-gradient(140deg,#8b5cf6,#6d28d9)', m: '14 个上架智能体' }, { n: 'NeoLab', g: 'linear-gradient(140deg,#38bdf8,#2563eb)', m: '对接成功率 92%' }, { n: 'AtlasChen', g: 'linear-gradient(140deg,#34d399,#059669)', m: '下载 48k+' }].map((r, i) => (
+      {[{ n: 'RiverFlow', g: 'linear-gradient(140deg,#0d9488,#0f766e)', m: '14 个上架智能体' }, { n: 'NeoLab', g: 'linear-gradient(140deg,#14b8a6,#0f766e)', m: '对接成功率 92%' }, { n: 'AtlasChen', g: 'linear-gradient(140deg,#0d9488,#14b8a6)', m: '下载 48k+' }].map((r, i) => (
         <div className="auth-board-row" style={{ '--i': i }} key={r.n}>
           <span className={`auth-board-rank rank-${i + 1}`}>{i + 1}</span>
           <span className="auth-chat-av" style={{ background: r.g }}>{r.n[0]}</span>
