@@ -60,9 +60,9 @@ export function ParticleField({ count = 40, linkDist = 86, paintBg = true, class
       if (w < 2 || h < 2) return;
       if (paintBg) {
         const g = ctx.createLinearGradient(0, 0, w, h);
-        g.addColorStop(0, 'rgba(124, 58, 237, 0.22)');
-        g.addColorStop(0.5, 'rgba(192, 132, 252, 0.12)');
-        g.addColorStop(1, 'rgba(232, 121, 249, 0.16)');
+        g.addColorStop(0, 'rgba(13, 148, 136, 0.18)');
+        g.addColorStop(0.5, 'rgba(45, 212, 191, 0.10)');
+        g.addColorStop(1, 'rgba(52, 211, 153, 0.12)');
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, w, h);
       }
@@ -70,7 +70,7 @@ export function ParticleField({ count = 40, linkDist = 86, paintBg = true, class
       for (const p of particles) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(196, 181, 253, 0.5)';
+        ctx.fillStyle = 'rgba(13, 148, 136, 0.45)';
         ctx.fill();
       }
     }
@@ -98,16 +98,16 @@ export function ParticleField({ count = 40, linkDist = 86, paintBg = true, class
 
       if (paintBg) {
         const bg = ctx.createLinearGradient(0, 0, w, h);
-        bg.addColorStop(0, `rgba(15, 8, 30, ${0.45 + Math.sin(time * 0.4) * 0.06})`);
-        bg.addColorStop(0.45, `rgba(30, 15, 55, ${0.3 + Math.cos(time * 0.35) * 0.05})`);
-        bg.addColorStop(1, `rgba(50, 20, 80, ${0.35 + Math.sin(time * 0.25) * 0.05})`);
+        bg.addColorStop(0, `rgba(240, 250, 246, ${0.45 + Math.sin(time * 0.4) * 0.06})`);
+        bg.addColorStop(0.45, `rgba(230, 242, 236, ${0.3 + Math.cos(time * 0.35) * 0.05})`);
+        bg.addColorStop(1, `rgba(220, 235, 228, ${0.35 + Math.sin(time * 0.25) * 0.05})`);
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, w, h);
 
         const glow = ctx.createRadialGradient(w * 0.32, h * 0.18, 0, w * 0.42, h * 0.32, h * 0.95);
-        glow.addColorStop(0, `rgba(192, 132, 252, ${0.2 + Math.sin(time) * 0.06})`);
-        glow.addColorStop(0.42, 'rgba(124, 58, 237, 0.08)');
-        glow.addColorStop(1, 'rgba(232, 121, 249, 0)');
+        glow.addColorStop(0, `rgba(45, 212, 191, ${0.2 + Math.sin(time) * 0.06})`);
+        glow.addColorStop(0.42, 'rgba(13, 148, 136, 0.06)');
+        glow.addColorStop(1, 'rgba(183, 149, 11, 0)');
         ctx.fillStyle = glow;
         ctx.fillRect(0, 0, w, h);
       }
@@ -131,7 +131,7 @@ export function ParticleField({ count = 40, linkDist = 86, paintBg = true, class
           const d = Math.hypot(dx, dy);
           if (d < linkDist) {
             const alpha = 0.22 * (1 - d / linkDist);
-            ctx.strokeStyle = `rgba(167, 139, 250, ${alpha})`;
+            ctx.strokeStyle = `rgba(13, 148, 136, ${alpha})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -145,11 +145,11 @@ export function ParticleField({ count = 40, linkDist = 86, paintBg = true, class
         const pulse = 0.5 + 0.5 * Math.sin(time * 2.2 + p.phase);
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r + pulse * 0.35, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(196, 181, 253, ${0.3 + pulse * 0.22})`;
+        ctx.fillStyle = `rgba(13, 148, 136, ${0.3 + pulse * 0.22})`;
         ctx.fill();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r * 0.45, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(232, 221, 255, 0.88)';
+        ctx.fillStyle = 'rgba(180, 228, 215, 0.90)';
         ctx.fill();
       }
 

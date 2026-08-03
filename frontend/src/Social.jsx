@@ -4,7 +4,7 @@ import { api } from './api.js';
 import { getSession } from './shared.jsx';
 
 // ============================================================
-// Pandora X — Social layer
+// 楚楚智创 — Social layer
 // A sidebar dock with two sliding panes (Following / Chatted) plus
 // a floating chat-window layer. State is shared through SocialContext
 // so the dock and chat windows stay in sync, and unread counts poll
@@ -30,7 +30,7 @@ export function SocialProvider({ children }) {
     function sync() { setToken(getSession()?.token || null); }
     window.addEventListener('storage', sync);
     window.addEventListener('chuchu-session', sync);
-    return () => { window.removeEventListener('storage', sync); window.removeEventListener('pandora-session', sync); };
+    return () => { window.removeEventListener('storage', sync); window.removeEventListener('chuchu-session', sync); };
   }, []);
   const loggedIn = !!token;
 
@@ -96,12 +96,12 @@ export function SocialProvider({ children }) {
 // every user gets a stable, premium-looking identity chip).
 // ------------------------------------------------------------
 const AVATAR_GRADIENTS = [
-  'linear-gradient(140deg,#8b5cf6,#6d28d9)',
-  'linear-gradient(140deg,#ec4899,#a21caf)',
-  'linear-gradient(140deg,#38bdf8,#2563eb)',
-  'linear-gradient(140deg,#34d399,#059669)',
+  'linear-gradient(140deg,#0d9488,#0f766e)',
+  'linear-gradient(140deg,#0d9488,#0f766e)',
+  'linear-gradient(140deg,#14b8a6,#0f766e)',
+  'linear-gradient(140deg,#0d9488,#14b8a6)',
   'linear-gradient(140deg,#fbbf24,#d97706)',
-  'linear-gradient(140deg,#f472b6,#db2777)',
+  'linear-gradient(140deg,#b7950b,#8a6d0d)',
 ];
 function monogram(user) {
   const s = (user.name || user.email || '?').trim();
@@ -141,15 +141,15 @@ function SocialEmptyArt({ variant = 'follow' }) {
           <stop offset="100%" stopColor="#a3e635" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="se-blob" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#4b5563" />
-          <stop offset="100%" stopColor="#1f2430" />
+          <stop offset="0%" stopColor="#0d9488" />
+          <stop offset="100%" stopColor="#0f766e" />
         </linearGradient>
       </defs>
       <ellipse className="se-halo" cx="100" cy="86" rx="62" ry="46" fill="url(#se-glow)" />
       {/* doodle strokes */}
-      <path className="se-doodle" d="M44 120c14 8 34 10 52 4" stroke="#9ca3af" strokeWidth="3" strokeLinecap="round" />
-      <path className="se-doodle" d="M150 70c10 2 16 9 14 18" stroke="#9ca3af" strokeWidth="3" strokeLinecap="round" />
-      <path className="se-spark" d="M146 44c-2 6-2 6-8 8 6 2 6 2 8 8 2-6 2-6 8-8-6-2-6-2-8-8Z" fill="#8b5cf6" />
+      <path className="se-doodle" d="M44 120c14 8 34 10 52 4" stroke="#0d9488" strokeWidth="3" strokeOpacity="0.4" strokeLinecap="round" />
+      <path className="se-doodle" d="M150 70c10 2 16 9 14 18" stroke="#0d9488" strokeWidth="3" strokeOpacity="0.4" strokeLinecap="round" />
+      <path className="se-spark" d="M146 44c-2 6-2 6-8 8 6 2 6 2 8 8 2-6 2-6 8-8-6-2-6-2-8-8Z" fill="#b7950b" />
       {/* speech bubble */}
       <g className="se-bubble">
         <rect x="52" y="36" width="64" height="40" rx="12" fill="url(#se-blob)" opacity="0.9" />
@@ -161,9 +161,9 @@ function SocialEmptyArt({ variant = 'follow' }) {
       {/* face blob */}
       <g className="se-face">
         <circle cx="112" cy="92" r="30" fill="url(#se-blob)" />
-        <circle cx="103" cy="88" r="3.6" fill="#e5e7eb" />
-        <circle cx="121" cy="88" r="3.6" fill="#e5e7eb" />
-        <path d="M103 102h18" stroke="#e5e7eb" strokeWidth="3" strokeLinecap="round" />
+        <circle cx="103" cy="88" r="3.6" fill="#cde7de" />
+        <circle cx="121" cy="88" r="3.6" fill="#cde7de" />
+        <path d="M103 102h18" stroke="#cde7de" strokeWidth="3" strokeLinecap="round" />
       </g>
     </svg>
   );
@@ -203,7 +203,7 @@ export function SocialDock() {
     return (
       <div className="social-dock social-dock--guest surface-card">
         <div className="social-dock-head"><span className="so-dot" /> 社区</div>
-        <p className="social-guest-text">登录后即可关注创作者、私信交流，组建你的 AI 协作圈。</p>
+        <p className="social-guest-text">登录后即可关注创作者、私信交流，组建你的楚楚智创协作圈。</p>
         <button type="button" className="btn--primary btn--sm btn--full" onClick={() => navigate('/login')}>登录 / 注册</button>
       </div>
     );
@@ -248,10 +248,10 @@ export function SocialDock() {
         <>
           <div className="social-tabs" role="tablist">
             <button type="button" role="tab" className={`social-tab${tab === 'following' ? ' active' : ''}`} onClick={() => setTab('following')}>
-              Following {following.length > 0 && <span className="social-tab-count">{following.length}</span>}
+              关注中 {following.length > 0 && <span className="social-tab-count">{following.length}</span>}
             </button>
             <button type="button" role="tab" className={`social-tab${tab === 'chatted' ? ' active' : ''}`} onClick={() => setTab('chatted')}>
-              Chatted {social.totalUnread > 0 && <span className="social-tab-badge">{social.totalUnread}</span>}
+              聊过 {social.totalUnread > 0 && <span className="social-tab-badge">{social.totalUnread}</span>}
             </button>
             <span className={`social-tab-ink ${tab}`} aria-hidden />
           </div>

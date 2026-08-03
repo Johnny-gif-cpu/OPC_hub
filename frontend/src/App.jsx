@@ -22,9 +22,9 @@ import {
 // ============================================================
 const NAV_LINKS = [
   { path: '/', label: '首页', icon: IconExplore },
-  { path: '/browse', label: 'Pandora Box', icon: IconBox },
+  { path: '/browse', label: '智能工坊', icon: IconBox },
   { path: '/requests', label: '需求广场', icon: IconBounty },
-  { path: '/pioneer', label: 'Pandora X 先锋', icon: IconMedal },
+  { path: '/pioneer', label: '楚楚先锋榜', icon: IconMedal },
   { path: '/profile', label: '个人中心', icon: IconUser },
 ];
 
@@ -58,7 +58,7 @@ function UserMenu({ session }) {
                 <div className="status">已登录</div>
               </div>
               <button type="button" className="dropdown-item" onClick={() => { navigate('/profile'); setOpen(false); }}>个人中心</button>
-              <button type="button" className="dropdown-item" onClick={() => { navigate('/my-skills'); setOpen(false); }}>我的 Skills</button>
+              <button type="button" className="dropdown-item" onClick={() => { navigate('/my-skills'); setOpen(false); }}>我的智能体</button>
               <button type="button" className="dropdown-item" style={{ color: '#fca5a5' }} onClick={() => { api.logout(); clearSession(); setOpen(false); navigate('/'); }}>退出登录</button>
             </>
           ) : (
@@ -91,8 +91,8 @@ function AppSidebar() {
         ))}
       </nav>
       <div className="sidebar-cta">
-        <p>有好用的 Skill？上传分享，加入创作者激励计划。</p>
-        <button type="button" className="btn--primary btn--sm btn--full" onClick={() => navigate('/upload')}>上传 Skill</button>
+        <p>有好用的智能体？上传分享，加入创作者激励计划。</p>
+        <button type="button" className="btn--primary btn--sm btn--full" onClick={() => navigate('/upload')}>上传智能体</button>
       </div>
       <SocialDock />
     </aside>
@@ -265,8 +265,8 @@ function HomePage() {
                 className="home-search-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="搜索 Skills、分类或场景关键词…"
-                aria-label="搜索 Skills"
+                placeholder="搜索智能体、分类或场景关键词…"
+                aria-label="搜索智能体"
               />
               <button type="submit" className="home-search-go">搜索</button>
             </form>
@@ -281,15 +281,15 @@ function HomePage() {
             <div className="home-hero-aurora" aria-hidden />
             <div className="home-hero-inner">
               <div className="hero-copy">
-                <p className="badge">AI Skills Platform</p>
+                <p className="badge">OPC 智能体孵化平台</p>
                 <h1 className="home-hero-title">
                   <span className="home-hero-title-line">发现并一键部署</span>
-                  <span className="home-hero-title-gradient">日常 · 企业 Skills</span>
+                  <span className="home-hero-title-gradient">日常 · 企业智能体</span>
                 </h1>
-                <p className="home-hero-lead">覆盖生活灵感与增长交付：浏览、部署、上传与分享，一套平台连接日常与企业场景。</p>
+                <p className="home-hero-lead">覆盖生活灵感与增长交付：浏览、部署、上传与分享，一套平台连接荆州企业与创新场景。</p>
                 <div className="hero-actions">
-                  <button type="button" className="btn--primary" onClick={() => navigate('/browse')}>开始浏览 Skills</button>
-                  <button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>我是开发者，上传 Skill</button>
+                  <button type="button" className="btn--primary" onClick={() => navigate('/browse')}>开始浏览智能体</button>
+                  <button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>我是开发者，上传智能体</button>
                 </div>
                 <ul className="home-hero-chips" aria-label="亮点">
                   <li>实时能力目录</li>
@@ -340,7 +340,7 @@ function HomePage() {
 
           <section className="section-header"><h2>小白入门区</h2></section>
           <section className="grid grid--4">
-            {['什么是 Pandora X？', '如何安装第一个框架？', '如何一键部署 Skill？'].map((item) => (
+            {['什么是楚楚智创？', '如何安装第一个框架？', '如何一键部署智能体？'].map((item) => (
               <article className="skill-card" key={item}><h3>{item}</h3><p>面向新用户的分步骤指引，帮助你快速上手。</p></article>
             ))}
             <article className="skill-card">
@@ -396,15 +396,15 @@ function BrowsePage() {
   const titleHead = term
     ? `搜索 “${term}”`
     : activeCategory === '全部'
-      ? '全部 Skills'
-      : activeSample ? `${activeCategory} · ${skillKindLabel(activeSample.skillKind)} Skills` : `${activeCategory} Skills`;
+      ? '全部智能体'
+      : activeSample ? `${activeCategory} · ${skillKindLabel(activeSample.skillKind)} 智能体` : `${activeCategory} 智能体`;
 
   return (
     <Shell
-      badge="Skills Directory"
+      badge="智能体目录"
       title={titleHead}
-      subtitle={term ? `在全部 Skills 中按关键词匹配名称、描述、分类与作者，共 ${filtered.length} 个结果。` : '浏览全部 Pandora X Skills；用下方分类标签快速筛选，点击卡片即可一键部署。'}
-      action={<button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>上传 Skill</button>}
+      subtitle={term ? `在全部智能体中按关键词匹配名称、描述、分类与作者，共 ${filtered.length} 个结果。` : '浏览全部楚楚智创智能体；用下方分类标签快速筛选，点击卡片即可一键部署。'}
+      action={<button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>上传智能体</button>}
     >
       {term && (
         <div className="browse-search-tag">
@@ -428,7 +428,7 @@ function BrowsePage() {
         </div>
       </section>
       {loading ? <SkillGridSkeleton count={8} /> : filtered.length === 0 ? (
-        <EmptyState text="该分类下暂时还没有 Skill，换个分类看看吧。" />
+        <EmptyState text="该分类下暂时还没有智能体，换个分类看看吧。" />
       ) : (
         <section className="grid grid--4">
           {filtered.map((skill) => <SkillCard key={skill.id} skill={skill} />)}
@@ -463,7 +463,7 @@ function SkillDetailPage() {
   }
   if (!skill) {
     if (error && error.status === 404) return <Navigate to="/browse" replace />;
-    return <Shell action={<button type="button" className="btn--ghost" onClick={() => navigate(-1)}>← 返回</button>}><EmptyState text="未找到该 Skill，可能已下架。" /></Shell>;
+    return <Shell action={<button type="button" className="btn--ghost" onClick={() => navigate(-1)}>← 返回</button>}><EmptyState text="未找到该智能体，可能已下架。" /></Shell>;
   }
 
   return (
@@ -471,7 +471,7 @@ function SkillDetailPage() {
       <section className="detail-grid">
         <div className="surface-card detail-card">
           <div className="detail-card-header">
-            <span className="tag skill-corner-tag" style={skill.skillKind === 'daily' ? { background: 'rgba(34,211,238,0.14)', color: '#67e8f9' } : { background: 'rgba(232,121,249,0.14)', color: '#f0abfc' }}>
+            <span className="tag skill-corner-tag" style={skill.skillKind === 'daily' ? { background: 'rgba(13,148,136,0.12)', color: '#0d9488' } : { background: 'rgba(183,149,11,0.12)', color: '#8a6d0d' }}>
               {skillKindLabel(skill.skillKind)} · {skill.category}
             </span>
             <span className="downloads"><IconDownload /> {skill.downloads} 下载</span>
@@ -481,7 +481,7 @@ function SkillDetailPage() {
           <hr className="divider" />
           <div className="detail-card-meta">
             <div className="detail-meta-item"><span className="detail-meta-label">功能分类</span><strong>{skill.category}</strong></div>
-            <div className="detail-meta-item"><span className="detail-meta-label">Skill ID</span><strong>{skill.slug || skillSlug(skill)}</strong></div>
+            <div className="detail-meta-item"><span className="detail-meta-label">智能体 ID</span><strong>{skill.slug || skillSlug(skill)}</strong></div>
           </div>
           <div className="detail-card-actions">
             <button type="button" className="btn--secondary" onClick={copyLink}>{linkCopied ? '已复制链接' : '复制分享链接'}</button>
@@ -520,7 +520,7 @@ function RequestsPlazaPage() {
       badge="Request Board · Demo"
       title="需求广场"
       subtitle="企业或团队发布需求，开发者浏览后报名对接。后续可接工单、合同与交付里程碑（演示数据）。"
-      action={<button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>我有 Skill，去上传</button>}
+      action={<button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>我有智能体，去上传</button>}
     >
       <section className="filter-bar">
         {statusFilters.map((item) => (
@@ -551,7 +551,7 @@ function RequestsPlazaPage() {
               </div>
               <p className="subtitle" style={{ marginTop: 12, fontSize: '0.84rem' }}>{req.publisher}</p>
               <div className="card-actions">
-                <button type="button" className="btn--primary btn--sm" onClick={() => navigate('/browse')}>查看相关 Skills</button>
+                <button type="button" className="btn--primary btn--sm" onClick={() => navigate('/browse')}>查看相关智能体</button>
                 <button type="button" className="btn--ghost btn--sm">报名对接</button>
               </div>
             </article>
@@ -569,10 +569,10 @@ function PioneerPage() {
   const { data: pioneers } = useAsync(() => api.listPioneers(), [], fallbackPioneers);
   const board = pioneers || [];
   return (
-    <Shell badge="Pioneer Program · Demo" title="Pandora X 先锋" subtitle="面向深度贡献者与行业专家的成长计划：榜单、活动与优先对接权。当前页面为产品演示。">
+    <Shell badge="先锋计划 · 演示" title="楚楚先锋榜" subtitle="面向深度贡献者与行业专家的成长计划：榜单、活动与优先对接权。当前页面为产品演示。">
       <section className="pioneer-banner">
         <p className="badge">先锋计划</p>
-        <h2>成为下一代 Pandora X 生态的共建者</h2>
+        <h2>成为楚楚智创 OPC 生态的共建者</h2>
         <p className="hero-text" style={{ marginBottom: 0 }}>先锋成员可获得官方推荐位、企业需求优先匹配，以及季度线下闭门交流（演示文案）。</p>
         <div className="pioneer-stats">
           <div><span>累计先锋</span><strong>128</strong></div>
@@ -599,9 +599,9 @@ function PioneerPage() {
       <section className="section-header"><h2>先锋任务（示例）</h2></section>
       <section className="grid grid--3">
         {[
-          { t: '完成 1 个日常或企业 Skill 上架', d: '通过审核并收获 50+ 部署。' },
+          { t: '完成 1 个日常或企业智能体上架', d: '通过审核并收获 50+ 部署。' },
           { t: '参与 1 次需求对接', d: '在需求广场完成一次成功交付记录。' },
-          { t: '撰写 Pandora X 实践案例', d: '分享真实业务落地故事，择优官方转载。' },
+          { t: '撰写楚楚智创实践案例', d: '分享真实业务落地故事，择优官方转载。' },
         ].map((item) => (
           <article className="skill-card" key={item.t}>
             <h3>{item.t}</h3>
@@ -671,22 +671,22 @@ function UploadPage() {
   }
 
   if (!session) {
-    return <Shell badge="Upload" title="上传 Skill"><LoginGate title="登录后即可上传" desc="发布与上传 Skill 需要登录账户；浏览与部署对访客开放。" /></Shell>;
+    return <Shell badge="Upload" title="上传智能体"><LoginGate title="登录后即可上传" desc="发布与上传智能体需要登录账户；浏览与部署对访客开放。" /></Shell>;
   }
 
   return (
-    <Shell badge="Upload" title="填写 Skill 信息" subtitle="选择日常或企业下的功能分类，填写名称与描述。提交后将保存为草稿，出现在「我的 Skills」。" action={<button type="button" className="btn--ghost" onClick={() => navigate('/browse')}>浏览 Skills</button>}>
+    <Shell badge="Upload" title="填写智能体信息" subtitle="选择日常或企业下的功能分类，填写名称与描述。提交后将保存为草稿，出现在「我的智能体」。" action={<button type="button" className="btn--ghost" onClick={() => navigate('/browse')}>浏览智能体</button>}>
       <form className="surface-card upload-form" onSubmit={submit}>
-        <label>Skill 名称<input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="例如：周末路书助手" required /></label>
+        <label>智能体名称<input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="例如：周末路书助手" required /></label>
         <label>功能分类
           <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            <optgroup label="日常 Skills">{DAILY_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}</optgroup>
-            <optgroup label="企业 Skills">{COMMERCIAL_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}</optgroup>
+            <optgroup label="日常智能体">{DAILY_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}</optgroup>
+            <optgroup label="企业智能体">{COMMERCIAL_SKILL_CATEGORIES.map((item) => <option key={item} value={item}>{item}</option>)}</optgroup>
           </select>
         </label>
-        <label>简介<textarea rows="4" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="介绍这个 skill 的用途" required /></label>
+        <label>简介<textarea rows="4" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="介绍这个智能体的用途" required /></label>
         <label>上传附件<input type="file" /></label>
-        <button type="submit" className="btn--primary" disabled={submitting}>{submitting ? '提交中...' : '提交 Skill'}</button>
+        <button type="submit" className="btn--primary" disabled={submitting}>{submitting ? '提交中...' : '提交智能体'}</button>
         {msg && <p className="auth-form-msg" style={msgStyle(msgType)}>{msg}</p>}
       </form>
     </Shell>
@@ -701,17 +701,17 @@ function MySkillsPage() {
   const session = getSession();
   const { data: mine, loading } = useAsync(() => (session ? api.mySkills() : Promise.resolve([])), [!!session], []);
   if (!session) {
-    return <Shell badge="My Skills" title="我的 Skill"><LoginGate title="登录后查看你的 Skills" desc="登录账户即可管理你上传的 Skills 与发布状态。" /></Shell>;
+    return <Shell badge="我的智能体" title="我的智能体"><LoginGate title="登录后查看你的智能体" desc="登录账户即可管理你上传的智能体与发布状态。" /></Shell>;
   }
   const list = mine || [];
   return (
-    <Shell badge="My Skills" title="我的 Skill" subtitle="查看你上传的 Skill 与发布状态。" action={<><button type="button" className="btn--secondary btn--sm" onClick={() => navigate('/browse')}>浏览 Skills</button><button type="button" className="btn--primary btn--sm" onClick={() => navigate('/upload')}>上传 Skill</button></>}>
+    <Shell badge="我的智能体" title="我的智能体" subtitle="查看你上传的智能体与发布状态。" action={<><button type="button" className="btn--secondary btn--sm" onClick={() => navigate('/browse')}>浏览智能体</button><button type="button" className="btn--primary btn--sm" onClick={() => navigate('/upload')}>上传智能体</button></>}>
       {loading ? (
         <section className="grid grid--3">
           {Array.from({ length: 3 }).map((_, i) => <article className="skill-card skill-card--skeleton" key={i} aria-hidden><div className="sk-line sk-tag" /><div className="sk-line sk-title" /><div className="sk-line sk-short" /></article>)}
         </section>
       ) : list.length === 0 ? (
-        <EmptyState text="你还没有上传任何 Skill。点击右上角「上传 Skill」开始创作吧。" />
+        <EmptyState text="你还没有上传任何智能体。点击右上角「上传智能体」开始创作吧。" />
       ) : (
         <section className="grid grid--3">
           {list.map((skill) => (
@@ -741,7 +741,7 @@ function ProfilePage() {
   const session = getSession();
   const { data: mine } = useAsync(() => (session ? api.mySkills() : Promise.resolve([])), [!!session], []);
   if (!session) {
-    return <Shell badge="Account" title="个人中心"><LoginGate title="登录查看个人中心" desc="登录后查看账户信息、我的 Skills 与创作数据。浏览与部署无需登录。" /></Shell>;
+    return <Shell badge="Account" title="个人中心"><LoginGate title="登录查看个人中心" desc="登录后查看账户信息、我的智能体与创作数据。浏览与部署无需登录。" /></Shell>;
   }
   const list = mine || [];
   const publishedCount = list.filter((s) => s.status === '已发布').length;
@@ -752,13 +752,13 @@ function ProfilePage() {
         <div className="profile-avatar">{initial}</div>
         <div>
           <h2 style={{ fontSize: '1.4rem' }}>{session.email}</h2>
-          <p className="subtitle" style={{ marginTop: 4 }}>已登录 · Pandora X 创作者</p>
+          <p className="subtitle" style={{ marginTop: 4 }}>已登录 · 楚楚智创创作者</p>
         </div>
         <button type="button" className="btn--secondary btn--sm" style={{ marginLeft: 'auto' }} onClick={() => { api.logout(); clearSession(); navigate('/'); }}>退出登录</button>
       </section>
 
       <section className="profile-stat-grid">
-        <div className="surface-card profile-stat"><span className="num">{list.length}</span><span className="lbl">我的 Skills</span></div>
+        <div className="surface-card profile-stat"><span className="num">{list.length}</span><span className="lbl">我的智能体</span></div>
         <div className="surface-card profile-stat"><span className="num">{publishedCount}</span><span className="lbl">已发布</span></div>
         <div className="surface-card profile-stat"><span className="num">0</span><span className="lbl">需求对接</span></div>
         <div className="surface-card profile-stat"><span className="num">新锐</span><span className="lbl">先锋等级</span></div>
@@ -767,13 +767,13 @@ function ProfilePage() {
       <section className="section-header"><h2>快捷入口</h2></section>
       <section className="grid grid--3">
         <article className="skill-card">
-          <h3>我的 Skills</h3>
-          <p>查看与管理你上传的 Skills 及发布状态。</p>
+          <h3>我的智能体</h3>
+          <p>查看与管理你上传的智能体及发布状态。</p>
           <div className="card-actions"><button type="button" className="btn--primary btn--sm" onClick={() => navigate('/my-skills')}>查看</button></div>
         </article>
         <article className="skill-card">
-          <h3>上传新 Skill</h3>
-          <p>把你的好用 Skill 分享给社区，参与创作者激励。</p>
+          <h3>上传新智能体</h3>
+          <p>把你的好用智能体分享给社区，参与创作者激励。</p>
           <div className="card-actions"><button type="button" className="btn--secondary btn--sm" onClick={() => navigate('/upload')}>上传</button></div>
         </article>
         <article className="skill-card">
@@ -794,29 +794,29 @@ const AUTH_SLIDES = [
   {
     key: 'discover',
     eyebrow: '探索',
-    title: '浏览日常与企业级 Skills',
-    text: '从美食穿搭到增长获客，数百个高质量 Skill 即开即用，按场景分类一键找到。',
+    title: '浏览日常与企业级智能体',
+    text: '从美食穿搭到增长获客，数百个高质量智能体即开即用，按场景分类一键找到。',
     visual: 'cards',
   },
   {
     key: 'deploy',
     eyebrow: '部署',
     title: '一行命令，一键部署',
-    text: '选择 Claude Code、Codex、Cursor 等框架，复制命令粘贴到终端，Skill 即刻就位。',
+    text: '选择 Claude Code、Codex、Cursor 等框架，复制命令粘贴到终端，智能体即刻就位。',
     visual: 'terminal',
   },
   {
     key: 'social',
     eyebrow: '社区',
     title: '关注创作者，私信协作',
-    text: '关注活跃作者、即时私信交流，在 Pandora X 组建属于你的 AI 协作圈。',
+    text: '关注活跃作者、即时私信交流，在楚楚智创组建属于你的 AI 协作圈。',
     visual: 'chat',
   },
   {
     key: 'reward',
     eyebrow: '激励',
     title: '发布作品，赢得激励',
-    text: '上传你的 Skill 进入创作者激励计划，登上先锋榜，让更多人用上你的创造。',
+    text: '上传你的智能体进入创作者激励计划，登上先锋榜，让更多人用上你的创造。',
     visual: 'leaderboard',
   },
 ];
@@ -828,7 +828,7 @@ function AuthSlideVisual({ visual }) {
       { t: '穿搭', cat: '穿搭', g: 'linear-gradient(140deg,#f472b6,#db2777)' },
       { t: '旅游', cat: '旅游攻略', g: 'linear-gradient(140deg,#38bdf8,#2563eb)' },
       { t: '社群', cat: '社群工具', g: 'linear-gradient(140deg,#34d399,#059669)' },
-      { t: '内容', cat: '内容创作', g: 'linear-gradient(140deg,#a78bfa,#7c3aed)' },
+      { t: '内容', cat: '内容创作', g: 'linear-gradient(140deg,#2dd4bf,#0d9488)' },
       { t: '增长', cat: '账号流量', g: 'linear-gradient(140deg,#fbbf24,#d97706)' },
     ];
     return (
@@ -848,7 +848,7 @@ function AuthSlideVisual({ visual }) {
       <div className="auth-vis auth-vis--term">
         <div className="auth-term-bar"><i /><i /><i /></div>
         <div className="auth-term-body">
-          <p><span className="auth-term-prompt">$</span> npx pandora add capsule-wardrobe</p>
+          <p><span className="auth-term-prompt">$</span> npx opc add capsule-wardrobe</p>
           <p className="auth-term-dim">› 正在解析框架目标 …</p>
           <p className="auth-term-ok">✓ 已安装到 Claude Code</p>
           <p className="auth-term-cursor"><span className="auth-term-prompt">$</span> <span className="auth-caret" /></p>
@@ -859,7 +859,7 @@ function AuthSlideVisual({ visual }) {
   if (visual === 'chat') {
     return (
       <div className="auth-vis auth-vis--chat">
-        <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#8b5cf6,#6d28d9)' }}>R</span><span className="auth-chat-bubble">这个搭配 Skill 太好用了！</span></div>
+        <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#8b5cf6,#6d28d9)' }}>R</span><span className="auth-chat-bubble">这个搭配智能体太好用了！</span></div>
         <div className="auth-chat-row mine"><span className="auth-chat-bubble mine">谢谢，刚更新了新版本</span></div>
         <div className="auth-chat-row"><span className="auth-chat-av" style={{ background: 'linear-gradient(140deg,#f472b6,#db2777)' }}>M</span><span className="auth-chat-bubble">求一个旅游路书的合作</span></div>
         <div className="auth-chat-typing"><i /><i /><i /></div>
@@ -868,7 +868,7 @@ function AuthSlideVisual({ visual }) {
   }
   return (
     <div className="auth-vis auth-vis--board">
-      {[{ n: 'RiverFlow', g: 'linear-gradient(140deg,#8b5cf6,#6d28d9)', m: '14 个上架 Skills' }, { n: 'NeoLab', g: 'linear-gradient(140deg,#38bdf8,#2563eb)', m: '对接成功率 92%' }, { n: 'AtlasChen', g: 'linear-gradient(140deg,#34d399,#059669)', m: '下载 48k+' }].map((r, i) => (
+      {[{ n: 'RiverFlow', g: 'linear-gradient(140deg,#8b5cf6,#6d28d9)', m: '14 个上架智能体' }, { n: 'NeoLab', g: 'linear-gradient(140deg,#38bdf8,#2563eb)', m: '对接成功率 92%' }, { n: 'AtlasChen', g: 'linear-gradient(140deg,#34d399,#059669)', m: '下载 48k+' }].map((r, i) => (
         <div className="auth-board-row" style={{ '--i': i }} key={r.n}>
           <span className={`auth-board-rank rank-${i + 1}`}>{i + 1}</span>
           <span className="auth-chat-av" style={{ background: r.g }}>{r.n[0]}</span>
@@ -917,8 +917,8 @@ function AuthShowcase() {
 }
 
 function msgStyle(msgType) {
-  const bg = msgType === 'success' ? 'rgba(16,185,129,0.16)' : msgType === 'error' ? 'rgba(239,68,68,0.16)' : 'rgba(139,92,246,0.16)';
-  const color = msgType === 'success' ? '#6ee7b7' : msgType === 'error' ? '#fca5a5' : '#c4b5fd';
+  const bg = msgType === 'success' ? 'rgba(16,185,129,0.16)' : msgType === 'error' ? 'rgba(239,68,68,0.16)' : 'rgba(13,148,136,0.12)';
+  const color = msgType === 'success' ? '#6ee7b7' : msgType === 'error' ? '#fca5a5' : '#0d9488';
   return { background: bg, color };
 }
 

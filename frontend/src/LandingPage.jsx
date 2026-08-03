@@ -13,7 +13,7 @@ const FEATURES = [
   { Icon: FeatIconCatalog, title: 'Skills 集合', text: '日常与企业双轨能力目录，覆盖美食、穿搭、社群增长、内容创作等场景，开箱即用。' },
   { Icon: FeatIconDeploy, title: '一键部署', text: '选择 Claude Code、Codex、Cursor 等框架，复制命令粘贴到终端即可安装，门槛最低。' },
   { Icon: FeatIconPlaza, title: '需求广场', text: '企业发布需求，创作者报名对接，从工单到交付，让好 Skill 直接变现。' },
-  { Icon: FeatIconReward, title: '创作者激励', text: 'Pandora X 先锋计划：榜单、官方推荐位与企业优先匹配，激励下一代 OPC 创业者。' },
+  { Icon: FeatIconReward, title: '创作者激励', text: '楚楚先锋榜：榜单、官方推荐位与企业优先匹配，激励下一代 OPC 创业者。' },
 ];
 
 // ============================================================
@@ -25,7 +25,7 @@ const CAT_CARDS = [
   { t: '穿搭', cat: '穿搭', g: 'linear-gradient(140deg,#f472b6,#db2777)' },
   { t: '旅游', cat: '旅游攻略', g: 'linear-gradient(140deg,#38bdf8,#2563eb)' },
   { t: '社群', cat: '社群工具', g: 'linear-gradient(140deg,#34d399,#059669)' },
-  { t: '内容', cat: '内容创作', g: 'linear-gradient(140deg,#a78bfa,#7c3aed)' },
+  { t: '内容', cat: '内容创作', g: 'linear-gradient(140deg,#2dd4bf,#0d9488)' },
   { t: '增长', cat: '账号流量', g: 'linear-gradient(140deg,#fbbf24,#d97706)' },
 ];
 
@@ -58,7 +58,7 @@ function VisualDeploy() {
         ))}
       </div>
       <div className="lf-term-body">
-        <p><span className="lf-term-prompt">$</span> npx pandora add capsule-wardrobe</p>
+        <p><span className="lf-term-prompt">$</span> npx opc add capsule-wardrobe</p>
         <p className="lf-term-dim">› 目标框架：{FRAMEWORKS[active]}</p>
         <p className="lf-term-dim">› 正在写入 skill 配置 …</p>
         <p className="lf-term-ok"><IconCheck size={13} /> 已安装到 {FRAMEWORKS[active]}</p>
@@ -90,8 +90,8 @@ function VisualPlaza() {
 }
 
 const BOARD_ROWS = [
-  { n: 'RiverFlow', g: 'linear-gradient(140deg,#8b5cf6,#6d28d9)', m: '14 个上架 · 下载 48k+' },
-  { n: 'NeoLab', g: 'linear-gradient(140deg,#38bdf8,#2563eb)', m: '对接成功率 92%' },
+  { n: 'RiverFlow', g: 'linear-gradient(140deg,#0d9488,#0f766e)', m: '14 个上架 · 下载 48k+' },
+  { n: 'NeoLab', g: 'linear-gradient(140deg,#14b8a6,#0f766e)', m: '对接成功率 92%' },
   { n: 'AtlasChen', g: 'linear-gradient(140deg,#34d399,#059669)', m: '本月新增 6 个企业 Skill' },
 ];
 function VisualReward() {
@@ -130,8 +130,8 @@ const DETAILS = [
   },
   {
     key: 'reward', no: '04', eyebrow: '创作者激励', Visual: VisualReward, flip: true,
-    title: 'Pandora X 先锋，激励下一代 OPC 创业者',
-    text: '上传你的 Skill 即进入创作者激励计划：通过先锋榜、官方推荐位与企业优先匹配，让更多人用上你的创造，也让你的影响力沉淀为长期收益。',
+    title: '楚楚先锋榜，激励下一代 OPC 创业者',
+    text: '上传你的智能体即进入创作者激励计划：通过先锋榜、官方推荐位与企业优先匹配，让更多人用上你的创造，也让你的影响力沉淀为长期收益。',
     points: ['先锋榜与官方推荐位，放大优质作品', '企业需求优先匹配，机会先到先得', '社区关注与私信，沉淀你的协作圈'],
   },
 ];
@@ -156,7 +156,7 @@ function FeatureDetail({ item }) {
 }
 
 const STEPS = [
-  { n: '1', t: '发现', d: '在 Pandora Box 按分类浏览，找到契合场景的 Skill。' },
+  { n: '1', t: '发现', d: '在智能工坊按分类浏览，找到契合场景的智能体。' },
   { n: '2', t: '部署', d: '选择框架，复制生成的命令，粘贴到终端一键安装。' },
   { n: '3', t: '协作', d: '关注创作者、私信交流，或在需求广场发布与对接。' },
   { n: '4', t: '变现', d: '上传作品进入激励计划，登上先锋榜，让创造产生收益。' },
@@ -192,14 +192,13 @@ export function LandingPage() {
         </nav>
 
         <header className="landing-hero">
-          <span className="landing-pill"><span className="dot" />面向 AI Agent 时代的 Skills 平台</span>
+          <span className="landing-pill"><span className="dot" />面向 AI 智能体时代的 OPC 孵化平台</span>
           <h1 className="landing-title">
-            打开潘多拉魔盒<br />
-            <span className="text-gradient">释放 AI 的无限可能</span>
+            汇聚荆楚智慧<br />
+            <span className="text-gradient">开启智能体新篇章</span>
           </h1>
           <p className="landing-lead">
-            Pandora X 汇集众智，提供好用的 AI Skills 集合与一键部署能力。无论你是日常用户还是 OPC 创业者，
-            都能在这里发现、部署、分享并靠创作获得激励。
+            楚楚智创汇集众智，提供好用的 AI 智能体集合与一键部署能力。无论你是本地企业还是 OPC 创业者，都能在这里发现、部署与协作。
           </p>
           <div className="landing-ctas">
             <button type="button" className="btn--primary" onClick={() => navigate('/register')}>免费注册</button>
@@ -219,7 +218,7 @@ export function LandingPage() {
         <section className="landing-features">
           <div className="landing-features-head">
             <h2>一个平台，连接<span className="text-gradient">日常灵感</span>与<span className="text-gradient">企业增长</span></h2>
-            <p>从发现到部署，从需求到变现 —— Pandora X 为下一代 AI 使用者降低每一道门槛。</p>
+            <p>从发现到部署，从需求到变现 —— 楚楚智创为下一代 AI 使用者降低每一道门槛。</p>
           </div>
           <div className="landing-feature-grid">
             {FEATURES.map((f, i) => (
@@ -240,7 +239,7 @@ export function LandingPage() {
         {/* How it works */}
         <section className="landing-steps">
           <div className="landing-features-head">
-            <h2>四步走进 <span className="text-gradient">Pandora X</span></h2>
+            <h2>四步走进 <span className="text-gradient">楚楚智创</span></h2>
             <p>从第一次浏览到靠创作获得激励，整条路径清晰顺畅。</p>
           </div>
           <div className="landing-steps-grid">
@@ -257,8 +256,8 @@ export function LandingPage() {
 
         <section className="landing-cta-band">
           <div className="landing-cta-inner">
-            <h2>准备好打开你的魔盒了吗？</h2>
-            <p>立即注册，或以访客身份开始浏览与部署 Skills。</p>
+            <h2>准备好开启你的智能体之旅了吗？</h2>
+            <p>立即注册，或以访客身份开始浏览与部署智能体。</p>
             <div className="landing-ctas" style={{ justifyContent: 'center' }}>
               <button type="button" className="btn--primary" onClick={() => navigate('/register')}>免费注册</button>
               <button type="button" className="landing-guest" onClick={startAsGuest}>
