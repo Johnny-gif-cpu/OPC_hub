@@ -12,7 +12,7 @@ const FeatIconReward = () => (<svg width="26" height="26" viewBox="0 0 24 24" {.
 const FEATURES = [
   { Icon: FeatIconCatalog, title: 'Skills 集合', text: '三大分类能力目录，覆盖提示词、文生图、视频生成、写作分发与网页开发等场景，开箱即用。' },
   { Icon: FeatIconDeploy, title: '一键部署', text: '选择 Claude Code、Codex、Cursor 等框架，复制命令粘贴到终端即可安装，门槛最低。' },
-  { Icon: FeatIconPlaza, title: '需求广场', text: '企业发布需求，创作者报名对接，从工单到交付，让好 Skill 直接变现。' },
+  { Icon: FeatIconPlaza, title: 'OPC订单', text: '企业发布需求，创作者报名对接，从工单到交付，让好 Skill 直接变现。' },
   { Icon: FeatIconReward, title: '创作者激励', text: '楚楚先锋榜：榜单、官方推荐位与企业优先匹配，激励下一代 OPC 创业者。' },
 ];
 
@@ -120,9 +120,9 @@ const DETAILS = [
     points: ['支持主流 Agent 框架，命令自动适配', '复制即用，无需手动配置路径', '部署前展示来源与权限，安全透明'],
   },
   {
-    key: 'plaza', no: '03', eyebrow: '需求广场', Visual: VisualPlaza, flip: false,
+    key: 'plaza', no: '03', eyebrow: 'OPC订单', Visual: VisualPlaza, flip: false,
     title: '让好 Skill 直接对接真实需求',
-    text: '企业和团队在需求广场发布真实诉求，标注预算与截止时间；创作者浏览后报名对接，从工单、沟通到交付形成闭环。这是把创作能力变现的最短路径。',
+    text: '企业和团队在OPC订单发布真实诉求，标注预算与截止时间；创作者浏览后报名对接，从工单、沟通到交付形成闭环。这是把创作能力变现的最短路径。',
     points: ['企业发布需求，预算与状态清晰可见', '创作者报名对接，双向匹配', '从工单到交付的完整协作链路'],
   },
   {
@@ -155,7 +155,7 @@ function FeatureDetail({ item }) {
 const STEPS = [
   { n: '1', t: '发现', d: '在Skill广场按分类浏览，找到契合场景的智能体。' },
   { n: '2', t: '部署', d: '选择框架，复制生成的命令，粘贴到终端一键安装。' },
-  { n: '3', t: '协作', d: '关注创作者、私信交流，或在需求广场发布与对接。' },
+  { n: '3', t: '协作', d: '关注创作者、私信交流，或在OPC订单发布与对接。' },
   { n: '4', t: '变现', d: '上传作品进入激励计划，登上先锋榜，让创造产生收益。' },
 ];
 

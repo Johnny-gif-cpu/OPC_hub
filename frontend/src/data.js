@@ -92,6 +92,45 @@ export const pioneerBoard = [
 ];
 
 // ============================================================
+// 算力中心 — 国产大模型
+// ============================================================
+export const computeModels = [
+  { id: 'm1', name: '文心一言 4.0', provider: '百度', desc: '百度自研大语言模型，支持文本生成、对话、代码编写，中文理解能力领先。', tags: ['文本生成', '对话', '代码'], url: 'https://yiyan.baidu.com' },
+  { id: 'm2', name: '通义千问 2.5', provider: '阿里云', desc: '阿里云自研大模型，支持多轮对话、逻辑推理、文案创作，提供开源版本。', tags: ['文本生成', '多轮对话', '开源'], url: 'https://tongyi.aliyun.com' },
+  { id: 'm3', name: '讯飞星火 4.0', provider: '科大讯飞', desc: '讯飞自研认知大模型，擅长语音交互、教育、办公场景，多模态能力突出。', tags: ['语音', '多模态', '教育'], url: 'https://xinghuo.xfyun.cn' },
+  { id: 'm4', name: '智谱 ChatGLM-4', provider: '智谱AI', desc: '清华系团队开源大模型，支持128K上下文，推理能力优异，学术与工业并重。', tags: ['开源', '长上下文', '推理'], url: 'https://open.bigmodel.cn' },
+  { id: 'm5', name: '百川 4.0', provider: '百川智能', desc: '王小川团队打造，搜索增强大模型，擅长知识问答与信息整合。', tags: ['搜索增强', '知识问答', '文本生成'], url: 'https://www.baichuan-ai.com' },
+  { id: 'm6', name: 'MiniMax-abab7', provider: 'MiniMax', desc: '上海稀宇科技出品，支持长文本理解与多模态交互，海螺AI底层模型。', tags: ['多模态', '长文本', '对话'], url: 'https://www.minimaxi.com' },
+  { id: 'm7', name: 'Moonshot v1', provider: '月之暗面', desc: '杨植麟团队出品，Kimi智能助手底层模型，专注长文档理解与问答。', tags: ['长文档', '问答', '上下文'], url: 'https://www.moonshot.cn' },
+  { id: 'm8', name: 'DeepSeek V3', provider: '深言科技', desc: '国产开源大模型标杆，代码与推理能力突出，训练成本极低。', tags: ['开源', '代码', '推理'], url: 'https://www.deepseek.com' },
+  { id: 'm9', name: '腾讯混元', provider: '腾讯', desc: '腾讯自研大模型，覆盖文本、图像、视频等多模态场景，企业级应用。', tags: ['多模态', '企服', '视频'], url: 'https://hunyuan.tencent.com' },
+];
+
+// ============================================================
+// 成为OPC课程
+// ============================================================
+export const opcCourses = [
+  { id: 'c1', title: 'OPC入门：从零到一', difficulty: '入门', duration: '2小时', desc: '了解OPC基本概念、应用场景与生态体系，快速上手第一Agent。' },
+  { id: 'c2', title: 'Agent开发实战指南', difficulty: '中级', duration: '8小时', desc: '深入学习Agent架构设计、工具调用与多Agent协作，完成实战项目。' },
+  { id: 'c3', title: '大模型微调与部署', difficulty: '高级', duration: '12小时', desc: '掌握LoRA/Q-LoRA微调技术，将开源模型部署到生产环境。' },
+  { id: 'c4', title: 'OPC平台运维最佳实践', difficulty: '中级', duration: '6小时', desc: '学习负载均衡、监控告警、成本优化等OPC平台运维核心技能。' },
+  { id: 'c5', title: '企业级AI应用架构', difficulty: '高级', duration: '10小时', desc: '从需求分析到上线交付，完整的企业级AI应用开发流程。' },
+  { id: 'c6', title: 'AI安全与合规基础', difficulty: '入门', duration: '4小时', desc: '了解AI应用安全风险、数据隐私与合规要求，构建可信AI系统。' },
+];
+
+// ============================================================
+// 政策栏 — 荆州相关政策
+// ============================================================
+export const localPolicies = [
+  { id: 'p1', title: '荆州市数字经济发展三年行动方案（2024-2026）', dept: '荆州市人民政府', date: '2024-03-15', summary: '明确提出支持AI与大数据产业发展，建设数字荆州，为OPC企业提供税收优惠与创新补贴。' },
+  { id: 'p2', title: '关于加快人工智能产业发展的若干措施', dept: '湖北省科学技术厅', date: '2024-06-01', summary: '对AI初创企业给予最高500万元研发补助，支持大模型训练与推理基础设施建设。' },
+  { id: 'p3', title: '荆州市高层次人才引进与培养办法', dept: '荆州市委组织部', date: '2024-01-20', summary: 'AI领域高层次人才享受住房补贴、子女教育优待、创业启动资金等政策支持。' },
+  { id: 'p4', title: '湖北省算力基础设施建设规划（2025-2027）', dept: '湖北省发改委', date: '2025-01-10', summary: '规划在荆州建设区域算力中心，为本地OPC企业提供低成本高性能算力资源。' },
+  { id: 'p5', title: '关于促进OPC产业生态发展的指导意见', dept: '荆州市经信局', date: '2025-04-22', summary: '支持OPC平台建设与运营，鼓励企业上云用数赋智，打造荆州OPC产业集群。' },
+  { id: 'p6', title: '荆州市科技创新券管理办法', dept: '荆州市科技局', date: '2025-02-08', summary: '中小微企业可申领创新券，用于购买AI算力、技术咨询与培训服务，最高可抵扣50%。' },
+];
+
+// ============================================================
 // One-click deploy — framework targets
 // ============================================================
 export const DEPLOY_FRAMEWORKS = [

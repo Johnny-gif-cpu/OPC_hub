@@ -6,6 +6,7 @@ import { DeployPanel } from './DeployPanel.jsx';
 import {
   Brand, Footer, getSession, clearSession, setSession, hasSeen, markSeen, SESSION_KEY,
   IconExplore, IconBox, IconBounty, IconMedal, IconUser,
+  IconCpu, IconBook, IconDoc,
   IconBolt, IconCheck, IconDownload, ShareIcon, CategoryIcon,
 } from './shared.jsx';
 import { api, useAsync } from './api.js';
@@ -14,15 +15,19 @@ import {
   skills as fallbackSkills,
   plazaRequests as fallbackRequests, pioneerBoard as fallbackPioneers,
   ALL_SKILL_CATEGORIES, parseDownloads, skillSlug, DEPLOY_FRAMEWORKS,
+  computeModels, opcCourses, localPolicies,
 } from './data.js';
 
 // ============================================================
 // Nav links (shared by sidebar + topnav)
 // ============================================================
 const NAV_LINKS = [
-  { path: '/', label: '首页', icon: IconExplore },
+  { path: '/', label: '浏览Skill', icon: IconExplore },
   { path: '/browse', label: 'Skill广场', icon: IconBox },
-  { path: '/requests', label: '需求广场', icon: IconBounty },
+  { path: '/requests', label: 'OPC订单', icon: IconBounty },
+  { path: '/compute', label: '算力中心', icon: IconCpu },
+  { path: '/courses', label: '成为OPC课程', icon: IconBook },
+  { path: '/policies', label: '政策栏', icon: IconDoc },
   { path: '/pioneer', label: '楚楚先锋榜', icon: IconMedal },
   { path: '/profile', label: '个人中心', icon: IconUser },
 ];
@@ -486,9 +491,9 @@ function RequestsPlazaPage() {
 
   return (
     <Shell
-      badge="Request Board · Demo"
-      title="需求广场"
-      subtitle="企业或团队发布需求，开发者浏览后报名对接。后续可接工单、合同与交付里程碑（演示数据）。"
+      badge="OPC订单"
+      title="OPC订单"
+      subtitle="企业或团队发布 OPC 订单需求，开发者浏览后报名对接。后续可接工单、合同与交付里程碑（演示数据）。"
       action={<button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>我有智能体，去上传</button>}
     >
       <section className="filter-bar">
@@ -569,7 +574,7 @@ function PioneerPage() {
       <section className="grid grid--3">
         {[
           { t: '完成 1 个日常或企业智能体上架', d: '通过审核并收获 50+ 部署。' },
-          { t: '参与 1 次需求对接', d: '在需求广场完成一次成功交付记录。' },
+          { t: '参与 1 次需求对接', d: '在OPC订单中完成一次成功交付记录。' },
           { t: '撰写楚楚智创实践案例', d: '分享真实业务落地故事，择优官方转载。' },
         ].map((item) => (
           <article className="skill-card" key={item.t}>
@@ -1102,6 +1107,77 @@ function RootRedirect() {
 }
 
 // ============================================================
+// ComputePage — 算力中心 / 国产模型市场
+// ============================================================
+function ComputePage() {
+  return (
+    <Shell badge="算力中心" title="国产模型市场" subtitle="精选国内优质大模型，为OPC开发者提供算力参考与模型选型指南。">
+      <section className="grid grid--3">
+        {computeModels.map((model) => (
+          <article className="skill-card" key={model.name}>
+            <p className="subtitle" style={{ fontSize: '0.82rem', fontWeight: 700 }}>{model.provider}</p>
+            <h3 style={{ margin: '6px 0 8px' }}>{model.name}</h3>
+            <p>{model.desc}</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {model.tags.map((tag) => (
+                <span key={tag} className="tag" style={{ background: 'rgba(13,148,136,0.10)', color: '#0d9488' }}>{tag}</span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+    </Shell>
+  );
+}
+
+// ============================================================
+// CoursesPage — 成为OPC课程
+// ============================================================
+function CoursesPage() {
+  return (
+    <Shell badge="OPC课程" title="成为OPC课程" subtitle="从入门到精通，系统学习OPC开发、部署与运维技能。">
+      <section className="grid grid--3">
+        {opcCourses.map((course) => (
+          <article className="skill-card" key={course.title}>
+            <div className="skill-top">
+              <span className="tag skill-corner-tag" style={{ background: 'rgba(13,148,136,0.12)', color: '#0d9488' }}>{course.difficulty}</span>
+              <span className="downloads">{course.duration}</span>
+            </div>
+            <h3>{course.title}</h3>
+            <p>{course.desc}</p>
+            <div className="card-actions">
+              <button type="button" className="btn--primary btn--sm">开始学习</button>
+            </div>
+          </article>
+        ))}
+      </section>
+    </Shell>
+  );
+}
+
+// ============================================================
+// PoliciesPage — 政策栏
+// ============================================================
+function PoliciesPage() {
+  return (
+    <Shell badge="政策" title="政策栏" subtitle="荆州本地支持OPC产业发展的相关政策文件与通知。">
+      <div className="grid" style={{ gridTemplateColumns: '1fr' }}>
+        {localPolicies.map((policy) => (
+          <article className="surface-card" key={policy.title} style={{ padding: '20px 22px' }}>
+            <h3 style={{ margin: '0 0 10px' }}>{policy.title}</h3>
+            <div className="skill-top" style={{ marginBottom: 10 }}>
+              <span className="tag">{policy.dept}</span>
+              <span className="downloads">{policy.date}</span>
+            </div>
+            <p className="hero-text" style={{ margin: 0 }}>{policy.summary}</p>
+          </article>
+        ))}
+      </div>
+    </Shell>
+  );
+}
+
+// ============================================================
 // App — root router
 // ============================================================
 export default function App() {
@@ -1119,6 +1195,9 @@ export default function App() {
         <Route path="/skill/:id" element={<SkillDetailPage />} />
         <Route path="/requests" element={<RequestsPlazaPage />} />
         <Route path="/pioneer" element={<PioneerPage />} />
+        <Route path="/compute" element={<ComputePage />} />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/policies" element={<PoliciesPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <ChatLayer />

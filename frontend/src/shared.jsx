@@ -113,6 +113,27 @@ export const IconGitHub = () => (
 export const IconTwitter = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
 );
+export const IconCpu = ({ active }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="4" y="4" width="16" height="16" rx="2" fill={active ? 'currentColor' : 'none'} fillOpacity={active ? 0.18 : 0} />
+    <rect x="9" y="9" width="6" height="6" fill={active ? 'currentColor' : 'none'} />
+    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3" />
+  </svg>
+);
+export const IconBook = ({ active }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 6h16M4 12h16M4 18h12" fill={active ? 'currentColor' : 'none'} fillOpacity={active ? 0.15 : 0} />
+    <path d="M2 4v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+  </svg>
+);
+export const IconDoc = ({ active }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill={active ? 'currentColor' : 'none'} fillOpacity={active ? 0.15 : 0} />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+  </svg>
+);
 
 // ============================================================
 // Category icons (premium line icons — replace emoji)
@@ -153,7 +174,10 @@ export function Footer() {
           <div className="footer-col">
             <h4>平台</h4>
             <a onClick={() => navigate('/browse')}>Skill广场</a>
-            <a onClick={() => navigate('/requests')}>需求广场</a>
+            <a onClick={() => navigate('/requests')}>OPC订单</a>
+            <a onClick={() => navigate('/compute')}>算力中心</a>
+            <a onClick={() => navigate('/courses')}>成为OPC课程</a>
+            <a onClick={() => navigate('/policies')}>政策栏</a>
             <a onClick={() => navigate('/pioneer')}>楚楚先锋榜</a>
             <a onClick={() => navigate('/upload')}>上传智能体</a>
           </div>
