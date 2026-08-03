@@ -754,7 +754,7 @@ const AUTH_SLIDES = [
     key: 'discover',
     eyebrow: '探索',
     title: '浏览 AIGC 与内容创作智能体',
-    text: '从美食穿搭到增长获客，数百个高质量智能体即开即用，按场景分类一键找到。',
+    text: '从AI漫剧到爽文创作，数十个高质量智能体即开即用，按分类一键找到。',
     visual: 'cards',
   },
   {
