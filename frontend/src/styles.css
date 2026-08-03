@@ -880,6 +880,8 @@ select option { background: #ffffff; }
 .home-hero-visual__scatter .home-hero-floater { pointer-events: auto; position: absolute; padding: 0; border: 0; background: transparent; cursor: pointer; box-shadow: none; transform-origin: 50% 50%; }
 .home-hero-floater--travel { top: 22%; left: 7%; width: 64px; height: 64px; transform: rotate(-9deg); }
 .home-hero-floater--fashion { top: 38%; right: 6%; left: auto; width: 58px; height: 58px; transform: rotate(8deg); }
+.home-hero-floater--web { top: 64%; left: 14%; width: 56px; height: 56px; transform: rotate(5deg); }
+.home-hero-floater-glyph { display: grid; place-items: center; width: 100%; height: 100%; }
 .home-hero-floater:focus-visible { outline: none; }
 .home-hero-floater:focus-visible .home-hero-floater-inner { outline: 2px solid #0d9488; outline-offset: 3px; }
 .home-hero-floater-wobble { display: block; width: 100%; height: 100%; animation: wobble 4.2s ease-in-out infinite; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
@@ -1305,6 +1307,41 @@ select option { background: #ffffff; }
 .chat-send:disabled { opacity: 0.4; }
 .chat-send:not(:disabled):hover { transform: scale(1.08); }
 
+/* Upload dropzone */
+.upload-dropzone {
+  border: 2px dashed var(--line-2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--t-fast), background var(--t-fast);
+  background: var(--surface-2);
+}
+.upload-dropzone:hover, .upload-dropzone.drag-over {
+  border-color: var(--teal);
+  background: var(--teal-tint);
+}
+.upload-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+.upload-file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  font-size: 0.86rem;
+}
+.upload-file-item .file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-weight: 600; }
+.upload-file-item .file-size { color: var(--text-3); font-size: 0.78rem; white-space: nowrap; }
+.upload-file-item .file-remove { background: transparent; border: 0; color: var(--text-3); cursor: pointer; padding: 2px 6px; font-size: 0.9rem; border-radius: 4px; }
+.upload-file-item .file-remove:hover { background: rgba(239,68,68,0.12); color: #ef4444; }
+
 /* ============================================================
    Reduced motion
    ============================================================ */
@@ -1368,6 +1405,7 @@ select option { background: #ffffff; }
   .chat-layer .chat-window:not(:last-child) { display: none; }
   .home-hero-floater--travel { top: 20%; left: 4%; width: 52px; height: 52px; }
   .home-hero-floater--fashion { top: 34%; right: 4%; width: 48px; height: 48px; }
+  .home-hero-floater--web { top: 58%; left: 8%; width: 48px; height: 48px; }
   .home-hero-visual__metrics { grid-template-columns: 1fr; gap: 4px; }
   .home-hero-metric { display: flex; align-items: baseline; justify-content: space-between; text-align: left; }
   .home-hero-metric span { margin-bottom: 0; }

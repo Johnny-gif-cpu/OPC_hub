@@ -2,8 +2,8 @@
 // 楚楚智创 · OPC孵化器 — shared data (智能体, 分类, 部署配置)
 // ============================================================
 
-/** 两大分类 */
-export const ALL_SKILL_CATEGORIES = ['AIGC', '内容创作'];
+/** 三大分类 */
+export const ALL_SKILL_CATEGORIES = ['AIGC', '内容创作', '前端网页'];
 
 export function skillIdNumber(id) {
   const n = Number(String(id || '').replace(/\D/g, ''));
@@ -26,6 +26,8 @@ const SKILL_SLUGS = {
   s13: 'page-turner-engine', s14: 'xhs-viral-copy', s15: 'short-viral-script',
   s16: 'wechat-article-pro', s17: 'product-review-template', s18: 'whitepaper-framework',
   s19: 'hotspot-news-flash',
+  s20: 'brand-landing-builder', s21: 'game-site-starter', s22: 'dashboard-scaffold',
+  s23: 'corp-site-generator',
 };
 export function skillSlug(skill) {
   return SKILL_SLUGS[skill.id] || `skill-${skillIdNumber(skill.id)}`;
@@ -56,14 +58,20 @@ export const skills = [
   { id: 's17', title: '产品评测模板', desc: '结构化评测框架：开箱→深度体验→竞品对比→购买建议，专业又易读。', category: '内容创作', downloads: '15.7k' },
   { id: 's18', title: '行业白皮书框架', desc: '专业报告结构设计+数据可视化建议+核心结论提炼，企业级白皮书模板。', category: '内容创作', downloads: '25.1k' },
   { id: 's19', title: '热点追踪快讯', desc: '实时热点监控+快速评论角度+传播策略建议，抢占内容先机。', category: '内容创作', downloads: '36.5k' },
+  // ---- 前端网页 ----
+  { id: 's20', title: '品牌首页构建器', desc: '品牌官网首页一站式搭建方案，包含Hero区、功能介绍、CTA布局与现代响应式设计模板。', category: '前端网页', downloads: '29.3k' },
+  { id: 's21', title: '游戏网站快速原型', desc: '游戏官网/活动页快速原型方案：游戏展示区、下载引导、社区入口与新闻动态模块。', category: '前端网页', downloads: '21.7k' },
+  { id: 's22', title: '后台仪表盘脚手架', desc: '数据仪表盘前端脚手架：图表面板、数据表格、侧边导航与用户管理界面模板。', category: '前端网页', downloads: '17.5k' },
+  { id: 's23', title: '企业官网生成器', desc: '企业官网多页面结构方案：关于我们、产品展示、新闻中心、联系表单一应俱全。', category: '前端网页', downloads: '26.1k' },
 ];
 
-const HOME_HOT_SKILL_IDS = ['s13', 's15', 's5', 's1', 's19', 's14', 's12', 's3', 's7'];
+const HOME_HOT_SKILL_IDS = ['s13', 's1', 's5', 's20', 's12'];
 export const homeHotSkills = HOME_HOT_SKILL_IDS.map((id) => skills.find((s) => s.id === id)).filter(Boolean);
 
 export const mySkills = [
   { title: '我的AI漫剧项目', category: 'AIGC', status: '已发布' },
   { title: '科普长文助手', category: '内容创作', status: '草稿' },
+  { title: '品牌官网重构方案', category: '前端网页', status: '等待审核' },
 ];
 
 export const plazaRequests = [

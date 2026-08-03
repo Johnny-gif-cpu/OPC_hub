@@ -10,7 +10,7 @@ const FeatIconPlaza = () => (<svg width="26" height="26" viewBox="0 0 24 24" {..
 const FeatIconReward = () => (<svg width="26" height="26" viewBox="0 0 24 24" {...sw}><circle cx="12" cy="9" r="5" /><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5" /></svg>);
 
 const FEATURES = [
-  { Icon: FeatIconCatalog, title: 'Skills 集合', text: 'AIGC 与内容创作双分类能力目录，覆盖提示词、文生图、视频生成与写作分发等场景，开箱即用。' },
+  { Icon: FeatIconCatalog, title: 'Skills 集合', text: '三大分类能力目录，覆盖提示词、文生图、视频生成、写作分发与网页开发等场景，开箱即用。' },
   { Icon: FeatIconDeploy, title: '一键部署', text: '选择 Claude Code、Codex、Cursor 等框架，复制命令粘贴到终端即可安装，门槛最低。' },
   { Icon: FeatIconPlaza, title: '需求广场', text: '企业发布需求，创作者报名对接，从工单到交付，让好 Skill 直接变现。' },
   { Icon: FeatIconReward, title: '创作者激励', text: '楚楚先锋榜：榜单、官方推荐位与企业优先匹配，激励下一代 OPC 创业者。' },
@@ -23,6 +23,7 @@ const FEATURES = [
 const CAT_CARDS = [
   { t: 'AIGC', cat: 'AIGC', g: 'linear-gradient(140deg,#0d9488,#14b8a6)' },
   { t: '内容创作', cat: '内容创作', g: 'linear-gradient(140deg,#b7950b,#d97706)' },
+  { t: '前端网页', cat: '前端网页', g: 'linear-gradient(140deg,#8b5cf6,#7c3aed)' },
 ];
 
 function VisualCatalog() {
@@ -108,9 +109,9 @@ function VisualReward() {
 const DETAILS = [
   {
     key: 'catalog', no: '01', eyebrow: 'Skills 集合', Visual: VisualCatalog, flip: false,
-    title: '一个目录，连接 AIGC 与内容创作',
-    text: '我们把零散的 AI 能力沉淀成结构化的 Skill 目录：AIGC 覆盖提示词、文生图、视频生成与 AI 工具链；内容创作覆盖写作、脚本、排版与多平台分发。每个 Skill 都标注场景、分类与部署量，找得到、选得准。',
-    points: ['AIGC / 内容创作双分类，按场景快速定位', '统一描述与部署量，质量一目了然', '持续扩充的精选目录，开箱即用'],
+    title: '一个目录，连接 AIGC、内容创作与前端网页',
+    text: '我们把零散的 AI 能力沉淀成结构化的 Skill 目录：AIGC 覆盖提示词、文生图、视频生成与 AI 工具链；内容创作覆盖写作、脚本、排版与多平台分发；前端网页覆盖页面开发、组件与响应式布局。每个 Skill 都标注场景、分类与部署量，找得到、选得准。',
+    points: ['AIGC / 内容创作 / 前端网页三大分类，按场景快速定位', '统一描述与部署量，质量一目了然', '持续扩充的精选目录，开箱即用'],
   },
   {
     key: 'deploy', no: '02', eyebrow: '一键部署', Visual: VisualDeploy, flip: true,
@@ -213,7 +214,7 @@ export function LandingPage() {
 
         <section className="landing-features">
           <div className="landing-features-head">
-            <h2>一个平台，连接<span className="text-gradient">AIGC</span>与<span className="text-gradient">内容创作</span></h2>
+            <h2>一个平台，连接<span className="text-gradient">AIGC</span>、<span className="text-gradient">内容创作</span>与<span className="text-gradient">前端网页</span></h2>
             <p>从发现到部署，从需求到变现 —— 楚楚智创为下一代 AI 使用者降低每一道门槛。</p>
           </div>
           <div className="landing-feature-grid">

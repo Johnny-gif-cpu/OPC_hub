@@ -6,7 +6,7 @@ import { DeployPanel } from './DeployPanel.jsx';
 import {
   Brand, Footer, getSession, clearSession, setSession, hasSeen, markSeen, SESSION_KEY,
   IconExplore, IconBox, IconBounty, IconMedal, IconUser,
-  IconBolt, IconDownload, ShareIcon, CategoryIcon,
+  IconBolt, IconCheck, IconDownload, ShareIcon, CategoryIcon,
 } from './shared.jsx';
 import { api, useAsync } from './api.js';
 import { SocialProvider, SocialDock, ChatLayer } from './Social.jsx';
@@ -273,7 +273,7 @@ function HomePage() {
                 <p className="badge">OPC 智能体孵化平台</p>
                 <h1 className="home-hero-title">
                   <span className="home-hero-title-line">发现并一键部署</span>
-                  <span className="home-hero-title-gradient">AIGC · 内容创作</span>
+                  <span className="home-hero-title-gradient">AIGC · 内容创作 · 前端网页</span>
                 </h1>
                 <p className="home-hero-lead">覆盖生活灵感与增长交付：浏览、部署、上传与分享，一套平台连接荆州企业与创新场景。</p>
                 <div className="hero-actions">
@@ -303,7 +303,7 @@ function HomePage() {
             ))}
           </section>
 
-          <section className="section-header"><h2>全部智能体</h2></section>
+          <section className="section-header"><h2>热门智能体</h2></section>
           {loading ? <SkillGridSkeleton count={8} /> : (
             <section className="grid grid--4">
               {featuredSkills.map((skill) => <SkillCard key={skill.id} skill={skill} />)}
@@ -336,15 +336,16 @@ function BrowsePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get('category');
   const term = (searchParams.get('q') || '').trim();
-  const activeCategory = q && ALL_SKILL_CATEGORIES.includes(q) ? q : '全部';
+  const activeCategory = q && ALL_SKILL_CATEGORIES.includes(q) ? q : '热门';
 
   const { data: skills, loading } = useAsync(
-    () => api.listSkills(activeCategory === '全部' ? {} : { category: activeCategory }),
+    () => api.listSkills(activeCategory === '热门' ? {} : { category: activeCategory }),
     [activeCategory],
     fallbackSkills,
   );
   const termLower = term.toLowerCase();
   const filtered = (skills || []).filter((s) => {
+    if (activeCategory === '热门' && !s.isHot) return false;
     if (!term) return true;
     return [s.title, s.desc, s.category, s.author]
       .filter(Boolean)
@@ -353,21 +354,21 @@ function BrowsePage() {
 
   function setCategory(cat) {
     const next = {};
-    if (cat !== '全部') next.category = cat;
+    if (cat !== '热门') next.category = cat;
     if (term) next.q = term;
     setSearchParams(next, { replace: true });
   }
 
   function clearSearch() {
     const next = {};
-    if (activeCategory !== '全部') next.category = activeCategory;
+    if (activeCategory !== '热门') next.category = activeCategory;
     setSearchParams(next, { replace: true });
   }
 
   const titleHead = term
     ? `搜索 “${term}”`
-    : activeCategory === '全部'
-      ? '全部智能体'
+    : activeCategory === '热门'
+      ? '热门智能体'
       : `${activeCategory} 智能体`;
 
   return (
@@ -384,7 +385,7 @@ function BrowsePage() {
         </div>
       )}
       <section className="filter-bar">
-        <button type="button" className={`filter-pill ${activeCategory === '全部' ? 'active' : ''}`} onClick={() => setCategory('全部')}>全部</button>
+        <button type="button" className={`filter-pill ${activeCategory === '热门' ? 'active' : ''}`} onClick={() => setCategory('热门')}>热门</button>
         {ALL_SKILL_CATEGORIES.map((cat) => (
           <button key={cat} type="button" className={`filter-pill ${activeCategory === cat ? 'active' : ''}`} onClick={() => setCategory(cat)}>{cat}</button>
         ))}
@@ -607,9 +608,35 @@ function UploadPage() {
   const [name, setName] = React.useState('');
   const [category, setCategory] = React.useState(ALL_SKILL_CATEGORIES[0]);
   const [desc, setDesc] = React.useState('');
+  const [files, setFiles] = React.useState([]);
+  const fileInputRef = React.useRef(null);
+  const [dragOver, setDragOver] = React.useState(false);
   const [msg, setMsg] = React.useState('');
   const [msgType, setMsgType] = React.useState('info');
   const [submitting, setSubmitting] = React.useState(false);
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  function handleFiles(e) {
+    const list = Array.from(e.target.files || []);
+    if (list.length) setFiles((prev) => [...prev, ...list]);
+    e.target.value = '';
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    setDragOver(false);
+    const list = Array.from(e.dataTransfer.files || []);
+    if (list.length) setFiles((prev) => [...prev, ...list]);
+  }
+
+  function removeFile(index) {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  }
 
   async function submit(e) {
     e.preventDefault();
@@ -617,11 +644,10 @@ function UploadPage() {
     setSubmitting(true);
     setMsg('');
     try {
-      const res = await api.uploadSkill({ title: name.trim(), category, description: desc.trim() });
+      await api.uploadSkill({ title: name.trim(), category, description: desc.trim() });
       setMsgType('success');
-      setMsg(res.message || '已提交');
+      setMsg('已提交，等待审核');
       setName(''); setDesc('');
-      setTimeout(() => navigate('/my-skills'), 900);
     } catch (err) {
       setMsgType('error');
       setMsg(err.message || '上传失败，请稍后再试');
@@ -644,9 +670,44 @@ function UploadPage() {
           </select>
         </label>
         <label>简介<textarea rows="4" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="介绍这个智能体的用途" required /></label>
-        <label>上传附件<input type="file" /></label>
-        <button type="submit" className="btn--primary" disabled={submitting}>{submitting ? '提交中...' : '提交智能体'}</button>
-        {msg && <p className="auth-form-msg" style={msgStyle(msgType)}>{msg}</p>}
+        <div style={{ display: 'grid', gap: 8 }}>
+          <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>附件文件</span>
+          <div
+            className="upload-dropzone"
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current && fileInputRef.current.click()}
+            style={{
+              border: '2px dashed var(--line-2)',
+              borderColor: dragOver ? 'var(--teal)' : 'var(--line-2)',
+              borderRadius: 12, padding: 32, textAlign: 'center', cursor: 'pointer',
+              transition: 'border-color .2s', background: 'var(--surface-2)',
+            }}
+          >
+            <p style={{ color: 'var(--text-3)', margin: 0 }}>📁 拖拽文件到此处，或<strong>点击选择</strong></p>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-3)', margin: '4px 0 0' }}>支持所有文件类型，数量不限</p>
+            <input type="file" multiple accept="*/*" style={{ display: 'none' }} ref={fileInputRef} onChange={handleFiles} />
+          </div>
+          {files.length > 0 && (
+            <ul className="upload-file-list" style={{ listStyle: 'none', margin: '4px 0 0', padding: 0 }}>
+              {files.map((f, i) => (
+                <li key={`${f.name}-${i}`} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 10, background: 'var(--surface-2)', fontSize: '0.88rem' }}>
+                  <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</span>
+                  <span style={{ color: 'var(--text-3)', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>{formatSize(f.size)}</span>
+                  <button type="button" onClick={() => removeFile(i)} aria-label={`移除 ${f.name}`} title="移除" style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--text-3)', fontSize: '0.95rem', lineHeight: 1, padding: 4 }}>✕</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <button type="submit" className="btn--primary" disabled={submitting}>{submitting ? '提交中...' : '提交审核'}</button>
+        {msg && (
+          <p className="auth-form-msg" style={msgStyle(msgType)}>
+            {msgType === 'success' && <IconCheck size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} />}
+            {msg}
+          </p>
+        )}
       </form>
     </Shell>
   );

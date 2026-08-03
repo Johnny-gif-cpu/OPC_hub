@@ -10,6 +10,7 @@ const TARGET_DOWNLOADS_K = 240;
 const HERO_FLOATERS = [
   { id: 'aigc', posClass: 'home-hero-floater--travel', src: '/floaters/home-float-travel.png', label: 'AIGC 插图', caption: '从提示词到作品，一键生成你的 AI 创意', browseCategory: 'AIGC' },
   { id: 'content', posClass: 'home-hero-floater--fashion', src: '/floaters/home-float-fashion.png', label: '内容创作插图', caption: '搭好你的灵感写作工作台', browseCategory: '内容创作' },
+  { id: 'web', posClass: 'home-hero-floater--web', color: 'linear-gradient(140deg,#8b5cf6,#7c3aed)', label: '前端网页插图', caption: '从页面结构到响应式布局，快速搭好你的网站', browseCategory: '前端网页' },
 ];
 
 export function HomeHeroVisual() {
@@ -43,7 +44,17 @@ export function HomeHeroVisual() {
           >
             <span className="home-hero-floater-wobble" style={{ animationDelay: `${index * 0.42}s` }}>
               <span className="home-hero-floater-inner">
-                <img src={item.src} alt="" draggable={false} width={80} height={80} loading="lazy" decoding="async" />
+                {item.src ? (
+                  <img src={item.src} alt="" draggable={false} width={80} height={80} loading="lazy" decoding="async" />
+                ) : (
+                  <span className="home-hero-floater-glyph" style={{ background: item.color }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M3 9h18" />
+                      <path d="M9 3v18" />
+                    </svg>
+                  </span>
+                )}
               </span>
             </span>
           </button>
