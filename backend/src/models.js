@@ -60,6 +60,7 @@ const skillSchema = new mongoose.Schema({
   descr:       { type: String, required: true },
   category:    { type: String, required: true },
   downloads:   { type: String, default: '0' },
+  recommended_agents: { type: [String], default: [] },
   slug:        { type: String },
   status:      { type: String, default: '已发布' },
   author_id:   { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },

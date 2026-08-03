@@ -88,6 +88,7 @@ function skillOut(row) {
     desc: row.descr,
     category: row.category,
     downloads: row.downloads,
+    recommendedAgents: row.recommended_agents || [],
     slug: row.slug,
     status: row.status,
     author: row.author_email,
@@ -327,6 +328,7 @@ async function handleUploadSkill(auth, body) {
     downloads: '0', slug, status: '草稿',
     author_id: auth.user._id, author_email: auth.user.email,
     is_hot: false, sort: 999,
+    recommended_agents: body.recommendedAgents || [],
   });
   return { status: 201, data: { message: '上传成功，已保存为草稿', data: skillOut(row) } };
 }

@@ -632,6 +632,11 @@ select option { background: #ffffff; }
 .deploy-fw:hover { border-color: var(--line-2); color: var(--text); background: rgba(255, 255, 255, 0.06); }
 .deploy-fw.active { border-color: var(--line-violet); background: var(--violet-tint); color: var(--text); box-shadow: var(--shadow-glow); }
 .deploy-fw-icon { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 0.78rem; font-weight: 800; flex-shrink: 0; background: var(--surface-3); }
+.deploy-fw.recommended { border-color: var(--line-teal); background: var(--teal-tint); box-shadow: var(--shadow-glow); }
+.deploy-fw-name { flex: 1; text-align: left; }
+.deploy-fw-recommend { flex-shrink: 0; font-size: 0.66rem; font-weight: 800; color: #fff; background: linear-gradient(135deg, #d97706, #f59e0b); border-radius: 999px; padding: 2px 8px; }
+.deploy-fw-download { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; padding: 4px; border-radius: 6px; color: var(--text-3); cursor: pointer; transition: color var(--t-fast), background var(--t-fast); }
+.deploy-fw-download:hover { color: var(--teal-bright); background: var(--teal-tint); }
 
 .deploy-cmd {
   position: relative;
@@ -878,9 +883,9 @@ select option { background: #ffffff; }
 .home-hero-visual__bottom-stack > * { pointer-events: auto; }
 .home-hero-visual__scatter { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 .home-hero-visual__scatter .home-hero-floater { pointer-events: auto; position: absolute; padding: 0; border: 0; background: transparent; cursor: pointer; box-shadow: none; transform-origin: 50% 50%; }
-.home-hero-floater--aigc { top: 22%; left: 7%; width: 64px; height: 64px; transform: rotate(-9deg); }
-.home-hero-floater--content { top: 38%; right: 6%; left: auto; width: 58px; height: 58px; transform: rotate(8deg); }
-.home-hero-floater--web { top: 64%; left: 14%; width: 56px; height: 56px; transform: rotate(5deg); }
+.home-hero-floater--aigc { top: 10%; left: 7%; width: 64px; height: 64px; transform: rotate(-9deg); }
+.home-hero-floater--content { top: 22%; right: 6%; left: auto; width: 58px; height: 58px; transform: rotate(8deg); }
+.home-hero-floater--web { top: 48%; left: 14%; width: 56px; height: 56px; transform: rotate(5deg); }
 .home-hero-floater:focus-visible { outline: none; }
 .home-hero-floater:focus-visible .home-hero-floater-inner { outline: 2px solid #0d9488; outline-offset: 3px; }
 .home-hero-floater-wobble { display: block; width: 100%; height: 100%; animation: wobble 4.2s ease-in-out infinite; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
@@ -1401,9 +1406,9 @@ select option { background: #ffffff; }
   .grid--4, .grid--3 { grid-template-columns: 1fr; }
   .chat-window { width: 100vw; right: 0 !important; left: 0; border-radius: 16px 16px 0 0; }
   .chat-layer .chat-window:not(:last-child) { display: none; }
-  .home-hero-floater--aigc { top: 20%; left: 4%; width: 52px; height: 52px; }
-  .home-hero-floater--content { top: 34%; right: 4%; width: 48px; height: 48px; }
-  .home-hero-floater--web { top: 58%; left: 8%; width: 48px; height: 48px; }
+  .home-hero-floater--aigc { top: 8%; left: 4%; width: 52px; height: 52px; }
+  .home-hero-floater--content { top: 18%; right: 4%; width: 48px; height: 48px; }
+  .home-hero-floater--web { top: 42%; left: 8%; width: 48px; height: 48px; }
   .home-hero-visual__metrics { grid-template-columns: 1fr; gap: 4px; }
   .home-hero-metric { display: flex; align-items: baseline; justify-content: space-between; text-align: left; }
   .home-hero-metric span { margin-bottom: 0; }

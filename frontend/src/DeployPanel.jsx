@@ -2,11 +2,14 @@ import React from 'react';
 import { DEPLOY_FRAMEWORKS, skillSlug } from './data.js';
 import { IconBolt, IconCopy, IconCheck } from './shared.jsx';
 
+const DownloadIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>;
+
 /**
  * DeployPanel — pick a framework, get a copy-paste install command.
  * Used on the skill detail page.
  */
-export function DeployPanel({ skill, defaultFramework = 'claude-code' }) {
+export function DeployPanel({ skill, defaultFramework = 'claude-code', recommendedAgents = [] }) {
+  const recommended = Array.isArray(recommendedAgents) ? recommendedAgents : [];
   const [fwId, setFwId] = React.useState(defaultFramework);
   const [copied, setCopied] = React.useState(false);
   const slug = skill.slug || skillSlug(skill);
@@ -32,19 +35,39 @@ export function DeployPanel({ skill, defaultFramework = 'claude-code' }) {
       <p className="deploy-sub">选择你的工具框架，复制命令粘贴到终端即可安装。</p>
 
       <div className="deploy-fw-label">选择框架</div>
+      {recommended.length > 0 && (
+        <p className="deploy-sub" style={{ marginTop: 8 }}>💡 推荐使用：{recommended.map((id) => DEPLOY_FRAMEWORKS.find((f) => f.id === id)?.name).filter(Boolean).join('、')}</p>
+      )}
       <div className="deploy-fw-grid">
-        {DEPLOY_FRAMEWORKS.map((f) => (
-          <button
-            key={f.id}
-            type="button"
-            className={`deploy-fw${f.id === fwId ? ' active' : ''}`}
-            onClick={() => setFwId(f.id)}
-            aria-pressed={f.id === fwId}
-          >
-            <span className="deploy-fw-icon" style={{ color: f.accent, boxShadow: `inset 0 0 0 1px ${f.accent}55` }}>{f.short}</span>
-            {f.name}
-          </button>
-        ))}
+        {DEPLOY_FRAMEWORKS.map((f) => {
+          const isRecommended = recommended.includes(f.id);
+          return (
+            <button
+              key={f.id}
+              type="button"
+              className={`deploy-fw${f.id === fwId ? ' active' : ''}${isRecommended ? ' recommended' : ''}`}
+              onClick={() => setFwId(f.id)}
+              aria-pressed={f.id === fwId}
+            >
+              <span className="deploy-fw-icon" style={{ color: f.accent, boxShadow: `inset 0 0 0 1px ${f.accent}55` }}>{f.short}</span>
+              <span className="deploy-fw-name">{f.name}</span>
+              {isRecommended && <span className="deploy-fw-recommend">推荐</span>}
+              {f.downloadUrl && (
+                <span
+                  className="deploy-fw-download"
+                  title={`下载 ${f.name}`}
+                  role="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(f.downloadUrl, '_blank', 'noopener,noreferrer');
+                  }}
+                >
+                  <DownloadIcon />
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       <div className="deploy-cmd">

@@ -13,7 +13,7 @@ import { SocialProvider, SocialDock, ChatLayer } from './Social.jsx';
 import {
   skills as fallbackSkills,
   plazaRequests as fallbackRequests, pioneerBoard as fallbackPioneers,
-  ALL_SKILL_CATEGORIES, parseDownloads, skillSlug,
+  ALL_SKILL_CATEGORIES, parseDownloads, skillSlug, DEPLOY_FRAMEWORKS,
 } from './data.js';
 
 // ============================================================
@@ -445,6 +445,12 @@ function SkillDetailPage() {
           <div className="detail-card-meta">
             <div className="detail-meta-item"><span className="detail-meta-label">功能分类</span><strong>{skill.category}</strong></div>
             <div className="detail-meta-item"><span className="detail-meta-label">智能体 ID</span><strong>{skill.slug || skillSlug(skill)}</strong></div>
+            {skill.recommendedAgents?.length > 0 && (
+              <div className="detail-meta-item">
+                <span className="detail-meta-label">推荐 Agent</span>
+                <strong>{skill.recommendedAgents.map((id) => DEPLOY_FRAMEWORKS.find((f) => f.id === id)?.name).filter(Boolean).join(' / ')}</strong>
+              </div>
+            )}
           </div>
           <div className="detail-card-actions">
             <button type="button" className="btn--secondary" onClick={copyLink}>{linkCopied ? '已复制链接' : '复制分享链接'}</button>
@@ -452,7 +458,7 @@ function SkillDetailPage() {
           </div>
           <p className="share-line">{shareUrl}</p>
         </div>
-        <DeployPanel skill={skill} />
+        <DeployPanel skill={skill} recommendedAgents={skill.recommendedAgents || []} />
       </section>
     </Shell>
   );
@@ -609,6 +615,7 @@ function UploadPage() {
   const [category, setCategory] = React.useState(ALL_SKILL_CATEGORIES[0]);
   const [desc, setDesc] = React.useState('');
   const [files, setFiles] = React.useState([]);
+  const [recommendedAgents, setRecommendedAgents] = React.useState([]);
   const fileInputRef = React.useRef(null);
   const [dragOver, setDragOver] = React.useState(false);
   const [msg, setMsg] = React.useState('');
@@ -644,7 +651,7 @@ function UploadPage() {
     setSubmitting(true);
     setMsg('');
     try {
-      await api.uploadSkill({ title: name.trim(), category, description: desc.trim() });
+      await api.uploadSkill({ title: name.trim(), category, description: desc.trim(), recommendedAgents });
       setMsgType('success');
       setMsg('已提交，等待审核');
       setName(''); setDesc('');
@@ -670,6 +677,15 @@ function UploadPage() {
           </select>
         </label>
         <label>简介<textarea rows="4" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="介绍这个智能体的用途" required /></label>
+        <label>推荐使用的 Agent（可多选）</label>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {DEPLOY_FRAMEWORKS.filter((f) => f.id !== 'generic').map((f) => (
+            <label key={f.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)', cursor: 'pointer', fontSize: '0.88rem', background: recommendedAgents.includes(f.id) ? 'var(--teal-tint)' : 'transparent' }}>
+              <input type="checkbox" checked={recommendedAgents.includes(f.id)} onChange={() => setRecommendedAgents((prev) => (prev.includes(f.id) ? prev.filter((x) => x !== f.id) : [...prev, f.id]))} style={{ width: 'auto' }} />
+              {f.name}
+            </label>
+          ))}
+        </div>
         <div style={{ display: 'grid', gap: 8 }}>
           <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>附件文件</span>
           <div

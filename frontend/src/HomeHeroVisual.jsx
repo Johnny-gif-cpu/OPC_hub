@@ -41,7 +41,6 @@ export function HomeHeroVisual() {
                 )}
               </span>
             </span>
-            <span className="home-hero-visual__caption">{f.label}</span>
           </button>
         ))}
       </div>
