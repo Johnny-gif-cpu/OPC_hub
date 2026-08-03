@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+
+# Local npm cache & stray tool artifacts (never ship)
+.npm-cache/
+/git
+/npm
+
+# Claude / local editor settings
+.claude/
+
+# Build / bundler output
+dist/
+build/
+*.tsbuildinfo
+
+# Backups
+backups/
+
+# Vite
+frontend/.vite/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# SQLite transient files (the main .db IS committed on purpose, so data
+# travels with the repo — only the WAL/SHM/journal side-files are ignored)
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Logs & debug
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test & coverage
+coverage/
+.nyc_output/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDE
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Optional local tooling
+.turbo/
+.cache/

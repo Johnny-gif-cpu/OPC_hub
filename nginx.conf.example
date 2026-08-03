@@ -1,0 +1,63 @@
+# ============================================================
+# Pandora X — Nginx 反向代理配置（仅 API）
+# 前端由 Vercel 托管，这个 Nginx 只负责把 API 请求转发到后端。
+# 适用: Ubuntu/Debian (/etc/nginx/sites-available/pandora)
+# ============================================================
+#
+# 你需要修改的地方（搜索 🔴）:
+#   1. server_name   — 你的后端域名（如 api.pandora.com）
+#   2. proxy_pass    — 后端端口（如果改了默认的 4000）
+#
+# 使用步骤:
+#   1. 复制到 Nginx 目录:
+#      sudo cp nginx.conf.example /etc/nginx/sites-available/pandora
+#   2. 修改 🔴 标记的域名
+#   3. 启用: sudo ln -s /etc/nginx/sites-available/pandora /etc/nginx/sites-enabled/
+#   4. 测试: sudo nginx -t
+#   5. 重载: sudo systemctl reload nginx
+#   6. HTTPS: sudo certbot --nginx -d api.你的域名.com
+# ============================================================
+
+server {
+    listen 80;
+    # 🔴 改成你的后端子域名
+    server_name api.yourdomain.com;
+
+    # ---- Gzip 压缩 ----
+    gzip on;
+    gzip_types application/json;
+    gzip_min_length 256;
+
+    # ---- 全部代理到后端 ----
+    location / {
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+
+        # 超时
+        proxy_connect_timeout 30s;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 30s;
+
+        # 上传限制（Skill 上传等）
+        client_max_body_size 10m;
+    }
+
+    # ---- 安全头 ----
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+}
+
+# ============================================================
+# 没有域名？直接用 IP + 端口的方式：
+#   把上面的 server_name 改成 _（匹配所有），
+#   然后在前端 VITE_API_BASE 填 http://你的VPS公网IP
+#   但这样就没有 HTTPS 了，不推荐。
+# ============================================================
