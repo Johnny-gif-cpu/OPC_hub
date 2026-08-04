@@ -190,125 +190,39 @@ function relTime(iso) {
 }
 
 // ============================================================
-// SocialDock — sidebar widget with Following / Chatted slider
+// SocialDock — sidebar 公告栏（平台消息 + 地方政策）
 // ============================================================
+const ANNOUNCEMENTS = [
+  { tag: '平台', title: 'OPC 平台正式上线公测', date: '2026-08-01', body: '楚楚智创 OPC 孵化器即日起开放公测，欢迎开发者上传 Skill 并参与创作者激励计划。' },
+  { tag: '政策', title: '荆州市科技创新券开放申领', date: '2025-02-08', body: '中小微企业可申领创新券，购买 AI 算力最高可抵扣 50%。' },
+  { tag: '平台', title: '9 款国产大模型入驻算力中心', date: '2026-07-28', body: '文心一言、通义千问、DeepSeek 等国产模型已接入，OPC 用户享免费试用额度。' },
+  { tag: '政策', title: '湖北省算力基础设施建设规划发布', date: '2025-01-10', body: '荆州被定位为鄂西南算力节点，规划建设荆州智算中心。' },
+  { tag: '平台', title: 'OPC 课程体系全面上线', date: '2026-07-20', body: '从入门到企业级架构，6 门课程覆盖 Agent 开发、模型微调与运维最佳实践。' },
+];
+
 export function SocialDock() {
-  const social = useSocial();
   const navigate = useNavigate();
-  const [tab, setTab] = React.useState('following');
-  const [discovering, setDiscovering] = React.useState(false);
-  const [people, setPeople] = React.useState([]);
-
-  if (!social || !social.loggedIn) {
-    return (
-      <div className="social-dock social-dock--guest surface-card">
-        <div className="social-dock-head"><span className="so-dot" /> 社区</div>
-        <p className="social-guest-text">登录后即可关注创作者、私信交流，组建你的楚楚智创协作圈。</p>
-        <button type="button" className="btn--primary btn--sm btn--full" onClick={() => navigate('/login')}>登录 / 注册</button>
-      </div>
-    );
-  }
-
-  const { following, conversations, openChat, toggleFollow } = social;
-
-  async function startDiscover() {
-    setDiscovering(true);
-    try { setPeople(await api.listUsers()); } catch { setPeople([]); }
-  }
 
   return (
     <div className="social-dock surface-card">
       <div className="social-dock-head">
-        <span className="social-dock-title"><span className="so-dot" /> 社区</span>
-        <button type="button" className="social-discover-btn" onClick={() => { if (discovering) { setDiscovering(false); } else startDiscover(); }}>
-          {discovering ? '完成' : '+ 发现'}
-        </button>
+        <span className="social-dock-title"><span className="so-dot" /> 公告</span>
       </div>
-
-      {discovering ? (
-        <div className="social-list social-discover">
-          {people.length === 0 && <p className="social-empty">加载中…</p>}
-          {people.map((p) => {
-            const isF = following.some((f) => f.id === p.id);
-            return (
-              <div className="social-row" key={p.id}>
-                <Avatar user={p} />
-                <div className="social-row-main">
-                  <span className="social-row-name">{p.name}</span>
-                  <span className="social-row-sub">{p.headline || p.email}</span>
-                </div>
-                <button type="button" className={`social-follow-btn${isF ? ' on' : ''}`} onClick={() => toggleFollow(p)}>
-                  {isF ? '已关注' : '关注'}
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <>
-          <div className="social-tabs" role="tablist">
-            <button type="button" role="tab" className={`social-tab${tab === 'following' ? ' active' : ''}`} onClick={() => setTab('following')}>
-              关注中 {following.length > 0 && <span className="social-tab-count">{following.length}</span>}
-            </button>
-            <button type="button" role="tab" className={`social-tab${tab === 'chatted' ? ' active' : ''}`} onClick={() => setTab('chatted')}>
-              聊过 {social.totalUnread > 0 && <span className="social-tab-badge">{social.totalUnread}</span>}
-            </button>
-            <span className={`social-tab-ink ${tab}`} aria-hidden />
-          </div>
-
-          <div className="social-pane-viewport">
-            <div className={`social-pane-track ${tab}`}>
-              {/* Following pane */}
-              <div className="social-pane">
-                {following.length === 0 ? (
-                  <SocialEmpty
-                    variant="follow"
-                    title="还没有关注任何人"
-                    action={<button type="button" className="social-empty-btn" onClick={startDiscover}>去发现创作者</button>}
-                  />
-                ) : (
-                  <div className="social-list">
-                    {following.map((u) => (
-                      <button type="button" className="social-row social-row--btn" key={u.id} onClick={() => openChat(u)}>
-                        <Avatar user={u} />
-                        <div className="social-row-main">
-                          <span className="social-row-name">{u.name}</span>
-                          <span className="social-row-sub">{u.headline || '点击发消息'}</span>
-                        </div>
-                        <span className="social-row-chat" aria-hidden><IconChatBubble size={15} /></span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Chatted pane */}
-              <div className="social-pane">
-                {conversations.length === 0 ? (
-                  <SocialEmpty
-                    variant="chat"
-                    title="还没有聊天记录"
-                    action={<button type="button" className="social-empty-btn" onClick={() => setTab('following')}>去打个招呼</button>}
-                  />
-                ) : (
-                  <div className="social-list">
-                    {conversations.map((c) => (
-                      <button type="button" className="social-row social-row--btn" key={c.convId} onClick={() => openChat(c.user)}>
-                        <Avatar user={c.user} />
-                        <div className="social-row-main">
-                          <span className="social-row-name">{c.user.name}{c.unread > 0 && <span className="social-unread-dot" />}</span>
-                          <span className="social-row-sub">{c.lastMessage ? (c.lastMessage.mine ? '我: ' : '') + c.lastMessage.body : '开始聊天'}</span>
-                        </div>
-                        <span className="social-row-time">{c.lastMessage ? relTime(c.lastMessage.createdAt) : ''}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+      <div className="social-list" style={{ maxHeight: 280, overflowY: 'auto' }}>
+        {ANNOUNCEMENTS.map((a, i) => (
+          <div className="social-row" key={i} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 4, padding: '10px 0', borderBottom: i < ANNOUNCEMENTS.length - 1 ? '1px solid var(--line)' : 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
+              <span className="tag" style={{ background: a.tag === '政策' ? 'rgba(245,158,11,0.12)' : 'var(--teal-tint)', color: a.tag === '政策' ? '#d97706' : 'var(--teal-bright)', fontSize: '0.7rem', padding: '2px 8px', flexShrink: 0 }}>{a.tag}</span>
+              <span style={{ fontWeight: 700, fontSize: '0.86rem', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.title}</span>
             </div>
+            <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-2)', lineHeight: 1.5 }}>{a.body}</p>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-3)' }}>{a.date}</span>
           </div>
-        </>
-      )}
+        ))}
+      </div>
+      <div style={{ paddingTop: 10, borderTop: '1px solid var(--line)' }}>
+        <button type="button" className="btn--ghost btn--sm btn--full" onClick={() => navigate('/policies')}>查看全部公告 →</button>
+      </div>
     </div>
   );
 }

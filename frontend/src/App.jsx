@@ -26,9 +26,8 @@ const NAV_LINKS = [
   { path: '/browse', label: 'Skill广场', icon: IconBox },
   { path: '/requests', label: 'OPC订单', icon: IconBounty },
   { path: '/compute', label: '算力中心', icon: IconCpu },
-  { path: '/courses', label: '成为OPC课程', icon: IconBook },
+  { path: '/courses', label: 'OPC课程', icon: IconBook },
   { path: '/policies', label: '政策栏', icon: IconDoc },
-  { path: '/pioneer', label: '楚楚先锋榜', icon: IconMedal },
   { path: '/profile', label: '个人中心', icon: IconUser },
 ];
 
@@ -95,8 +94,8 @@ function AppSidebar() {
         ))}
       </nav>
       <div className="sidebar-cta">
-        <p>有好用的智能体？上传分享，加入创作者激励计划。</p>
-        <button type="button" className="btn--primary btn--sm btn--full" onClick={() => navigate('/upload')}>上传智能体</button>
+        <p>有好用的Skill？上传分享，加入创作者激励计划。</p>
+        <button type="button" className="btn--primary btn--sm btn--full" onClick={() => navigate('/upload')}>上传Skill</button>
       </div>
       <SocialDock />
     </aside>
@@ -134,9 +133,17 @@ function TopNav() {
 // Shell — TopNav + content + footer
 // ============================================================
 function Shell({ children, title, subtitle, badge, action }) {
+  const navigate = useNavigate();
   return (
     <div className="page">
-      <TopNav />
+      <header className="shell-back-bar">
+        <button type="button" className="shell-back-btn" onClick={() => navigate(-1)} aria-label="返回">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          <span>返回</span>
+        </button>
+        <div className="shell-back-spacer" />
+        <UserMenu session={getSession()} />
+      </header>
       <div className="shell-wrap">
         {(title || action) && (
           <section className="page-hero">
@@ -232,12 +239,6 @@ function HomePage() {
     return [...pool].sort((a, b) => parseDownloads(b.downloads) - parseDownloads(a.downloads));
   }, [skills, searchTerm]);
 
-  const categoryCounts = React.useMemo(() => {
-    const m = {};
-    (skills || []).forEach((s) => { m[s.category] = (m[s.category] || 0) + 1; });
-    return m;
-  }, [skills]);
-
   function submitSearch(e) {
     e.preventDefault();
     const term = searchTerm.trim();
@@ -278,13 +279,9 @@ function HomePage() {
                 <p className="badge">OPC 智能体孵化平台</p>
                 <h1 className="home-hero-title">
                   <span className="home-hero-title-line">发现并一键部署</span>
-                  <span className="home-hero-title-gradient">AIGC · 内容创作 · 前端网页</span>
+                  <span className="home-hero-title-gradient">AIGC · 内容创作 · vibe coding</span>
                 </h1>
                 <p className="home-hero-lead">覆盖生活灵感与增长交付：浏览、部署、上传与分享，一套平台连接荆州企业与创新场景。</p>
-                <div className="hero-actions">
-                  <button type="button" className="btn--primary" onClick={() => navigate('/browse')}>开始浏览智能体</button>
-                  <button type="button" className="btn--secondary" onClick={() => navigate('/upload')}>我是开发者，上传智能体</button>
-                </div>
                 <ul className="home-hero-chips" aria-label="亮点">
                   <li>实时能力目录</li>
                   <li>AIGC 视频创作</li>
@@ -296,35 +293,61 @@ function HomePage() {
             </div>
           </section>
 
-          {/* Category quick entry */}
-          <section className="section-header"><h2>按分类探索</h2></section>
-          <section className="grid grid--4">
-            {ALL_SKILL_CATEGORIES.map((cat) => (
-              <div key={cat} className="cat-card" onClick={() => navigate(`/browse?category=${encodeURIComponent(cat)}`)} role="button" tabIndex={0}>
-                <span className="cat-icon"><CategoryIcon category={cat} size={24} /></span>
-                <span className="cat-name">{cat}</span>
-                <span className="cat-meta">{categoryCounts[cat] || 0} 个</span>
-              </div>
-            ))}
+          {/* 热门 Skill */}
+          <section className="section-header">
+            <h2>热门Skill</h2>
+            <button type="button" className="btn--ghost btn--sm" onClick={() => navigate('/browse')}>查看全部 →</button>
           </section>
-
-          <section className="section-header"><h2>热门智能体</h2></section>
-          {loading ? <SkillGridSkeleton count={8} /> : (
+          {loading ? <SkillGridSkeleton count={4} /> : (
             <section className="grid grid--4">
-              {featuredSkills.map((skill) => <SkillCard key={skill.id} skill={skill} />)}
+              {featuredSkills.slice(0, 4).map((skill) => <SkillCard key={skill.id} skill={skill} />)}
             </section>
           )}
 
-          <section className="section-header"><h2>小白入门区</h2></section>
-          <section className="grid grid--4">
-            {['什么是 AIGC 智能体？', '如何用智能体做内容创作？', '如何一键部署智能体？'].map((item) => (
-              <article className="skill-card" key={item}><h3>{item}</h3><p>面向新用户的分步骤指引，帮助你快速上手。</p></article>
+          {/* OPC课程 */}
+          <section className="section-header">
+            <h2>OPC课程</h2>
+            <button type="button" className="btn--ghost btn--sm" onClick={() => navigate('/courses')}>查看全部 →</button>
+          </section>
+          <section className="grid grid--3">
+            {opcCourses.slice(0, 3).map((course) => (
+              <article className="skill-card" key={course.id}>
+                <div className="skill-top">
+                  <span className="tag skill-corner-tag" style={{ background: 'rgba(13,148,136,0.12)', color: '#0d9488' }}>{course.difficulty}</span>
+                  <span className="downloads">{course.duration}</span>
+                </div>
+                <h3>{course.title}</h3>
+                <p>{course.desc}</p>
+                <div className="card-actions">
+                  <button type="button" className="btn--primary btn--sm" onClick={() => navigate('/courses')}>开始学习</button>
+                </div>
+              </article>
             ))}
-            <article className="skill-card">
-              <h3>开始学习</h3>
-              <p>从新手教程开始，5 分钟了解核心流程。</p>
-              <div className="card-actions"><button type="button" className="btn--secondary btn--sm" onClick={() => navigate('/browse')}>查看新手教程</button></div>
-            </article>
+          </section>
+
+          {/* 模型推荐 */}
+          <section className="section-header">
+            <h2>模型推荐</h2>
+            <button type="button" className="btn--ghost btn--sm" onClick={() => navigate('/compute')}>查看全部 →</button>
+          </section>
+          <section className="grid grid--3">
+            {computeModels.slice(0, 3).map((model) => (
+              <article className="skill-card" key={model.id}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                  <span style={{
+                    display: 'inline-flex', width: 36, height: 36, borderRadius: 10,
+                    background: model.logoColor || 'var(--teal)', color: '#fff',
+                    fontSize: '0.95rem', fontWeight: 800,
+                    alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  }}>{model.logo || model.name[0]}</span>
+                  <div>
+                    <p className="subtitle" style={{ fontSize: '0.78rem', fontWeight: 700, margin: 0 }}>{model.provider}</p>
+                    <strong style={{ fontSize: '0.94rem' }}>{model.name}</strong>
+                  </div>
+                </div>
+                <p style={{ fontSize: '0.88rem' }}>{model.desc}</p>
+              </article>
+            ))}
           </section>
         </main>
       </div>
@@ -1110,46 +1133,211 @@ function RootRedirect() {
 // ComputePage — 算力中心 / 国产模型市场
 // ============================================================
 function ComputePage() {
+  const navigate = useNavigate();
+  const [search, setSearch] = React.useState('');
+  const [selectedModel, setSelectedModel] = React.useState(null);
+
+  const term = search.trim().toLowerCase();
+  const filtered = term
+    ? computeModels.filter((m) =>
+        [m.name, m.provider, ...m.tags].some((f) => String(f).toLowerCase().includes(term)),
+      )
+    : computeModels;
+
   return (
     <Shell badge="算力中心" title="国产模型市场" subtitle="精选国内优质大模型，为OPC开发者提供算力参考与模型选型指南。">
+      {/* Search */}
+      <div className="compute-search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-3)' }}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
+        <input className="compute-search" type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="搜索模型名称、厂商或标签…" />
+      </div>
+
+      {/* Model grid */}
       <section className="grid grid--3">
-        {computeModels.map((model) => (
-          <article className="skill-card" key={model.name}>
-            <p className="subtitle" style={{ fontSize: '0.82rem', fontWeight: 700 }}>{model.provider}</p>
-            <h3 style={{ margin: '6px 0 8px' }}>{model.name}</h3>
-            <p>{model.desc}</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        {filtered.map((model) => (
+          <article className="compute-card" key={model.id} onClick={() => setSelectedModel(model)}>
+            <div className="compute-card-top">
+              <span className="compute-card-logo" style={{ background: model.logoColor }}>{model.logo}</span>
+              <div>
+                <h3>{model.name}</h3>
+                <p className="compute-card-provider">{model.provider}</p>
+              </div>
+            </div>
+            <p className="compute-card-desc">{model.desc}</p>
+            <div className="compute-card-tags">
               {model.tags.map((tag) => (
-                <span key={tag} className="tag" style={{ background: 'rgba(13,148,136,0.10)', color: '#0d9488' }}>{tag}</span>
+                <span key={tag} className="tag">{tag}</span>
               ))}
             </div>
           </article>
         ))}
       </section>
+
+      {/* Pricing Modal */}
+      {selectedModel && (
+        <div className="modal-overlay" onClick={() => setSelectedModel(null)}>
+          <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setSelectedModel(null)}>✕</button>
+            <div className="modal-model-head">
+              <span className="compute-card-logo" style={{ background: selectedModel.logoColor, width: 48, height: 48, fontSize: '1.3rem' }}>{selectedModel.logo}</span>
+              <div>
+                <h2>{selectedModel.name}</h2>
+                <p>{selectedModel.provider}</p>
+              </div>
+            </div>
+            <p className="modal-model-desc">{selectedModel.desc}</p>
+
+            {/* Pricing tiers */}
+            <div className="pricing-grid">
+              {selectedModel.pricing && Object.entries(selectedModel.pricing).map(([key, tier]) => (
+                <div className={`pricing-card ${key === 'free' ? 'pricing-card--free' : ''}`} key={key}>
+                  {key === 'free' && <span className="pricing-badge">🎁 平台专属</span>}
+                  <h4>{tier.name}</h4>
+                  <div className="pricing-price">
+                    <span className="pricing-num">{tier.price}</span>
+                    {tier.unit && <span className="pricing-unit">{tier.unit}</span>}
+                  </div>
+                  {tier.quota && <p className="pricing-quota">{tier.quota}</p>}
+                  <ul className="pricing-features">
+                    {tier.features.map((f) => <li key={f}>{f}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div className="modal-actions">
+              <button type="button" className="btn--primary" onClick={() => { setSelectedModel(null); navigate(`/trial/${selectedModel.id}`); }}>🎯 免费试用</button>
+              <button type="button" className="btn--secondary">📄 API 文档</button>
+            </div>
+          </div>
+        </div>
+      )}
     </Shell>
   );
 }
 
 // ============================================================
-// CoursesPage — 成为OPC课程
+// ModelTrialPage — 模型试用（OPC平台免费额度）
+// ============================================================
+function ModelTrialPage() {
+  const navigate = useNavigate();
+  const { modelId } = useParams();
+  const model = computeModels.find((m) => m.id === modelId);
+  const [input, setInput] = React.useState('');
+  const [chat, setChat] = React.useState([{ from: 'model', text: '你好！你正在使用 OPC 平台的免费额度试用 ' + (model?.name || '模型') + '。直接输入内容即可体验～' }]);
+  const [tokensUsed] = React.useState(0);
+  const chatRef = React.useRef(null);
+
+  React.useEffect(() => { if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight; }, [chat]);
+
+  if (!model) return <Shell><EmptyState text="未找到该模型" /></Shell>;
+
+  function handleSend() {
+    const text = input.trim();
+    if (!text) return;
+    setChat((prev) => [...prev, { from: 'user', text }]);
+    setInput('');
+    setTimeout(() => {
+      setChat((prev) => [...prev, { from: 'model', text: '感谢你的试用！我是 ' + model.name + '，通过 OPC 平台免费额度提供服务。实际商用请通过 API 文档接入～' }]);
+    }, 800);
+  }
+
+  return (
+    <Shell
+      action={<button type="button" className="btn--ghost" onClick={() => navigate('/compute')}>← 返回算力中心</button>}
+    >
+      <div className="trial-layout">
+        {/* Left: Chat area */}
+        <div className="trial-chat">
+          <div className="trial-chat-head">
+            <span className="compute-card-logo" style={{ background: model.logoColor, width: 36, height: 36, fontSize: '0.9rem' }}>{model.logo}</span>
+            <div>
+              <strong>{model.name}</strong>
+              <span className="tag" style={{ marginLeft: 8, background: 'rgba(16,185,129,0.12)', color: '#10b981', fontSize: '0.72rem' }}>试用中</span>
+            </div>
+          </div>
+          <div className="trial-chat-body" ref={chatRef}>
+            {chat.map((m, i) => (
+              <div key={i} className={`trial-msg ${m.from === 'user' ? 'trial-msg--user' : 'trial-msg--bot'}`}>
+                <div className="trial-msg-bubble">{m.text}</div>
+              </div>
+            ))}
+          </div>
+          <div className="trial-chat-input">
+            <input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="输入内容体验模型…" onKeyDown={(e) => { if (e.key === 'Enter') handleSend(); }} />
+            <button type="button" className="btn--primary btn--sm" onClick={handleSend}>发送</button>
+          </div>
+        </div>
+        {/* Right: Info panel */}
+        <aside className="trial-info">
+          <h3>OPC 免费额度</h3>
+          <div className="trial-quota-card">
+            <span className="trial-quota-num">1,000</span>
+            <span className="trial-quota-label">tokens / 月</span>
+          </div>
+          <div className="trial-quota-bar">
+            <div className="trial-quota-fill" style={{ width: `${Math.min(100, (tokensUsed / 1000) * 100)}%` }} />
+          </div>
+          <p className="subtitle" style={{ textAlign: 'center', fontSize: '0.8rem' }}>已用 {tokensUsed} / 1,000 tokens</p>
+          <hr className="divider" />
+          <h4>模型信息</h4>
+          <ul className="trial-model-info">
+            <li><span>厂商</span><strong>{model.provider}</strong></li>
+            <li><span>标签</span><strong>{model.tags.join(' · ')}</strong></li>
+          </ul>
+          <hr className="divider" />
+          <h4>升级到专业版</h4>
+          <p className="subtitle" style={{ fontSize: '0.84rem' }}>解锁更高额度与更多模型参数</p>
+          <button type="button" className="btn--secondary btn--sm btn--full" style={{ marginTop: 8 }}>查看报价</button>
+        </aside>
+      </div>
+    </Shell>
+  );
+}
+
+// ============================================================
+// CoursesPage — OPC课程
 // ============================================================
 function CoursesPage() {
+  const [expandedId, setExpandedId] = React.useState(null);
   return (
-    <Shell badge="OPC课程" title="成为OPC课程" subtitle="从入门到精通，系统学习OPC开发、部署与运维技能。">
+    <Shell badge="OPC课程" title="OPC课程" subtitle="从入门到精通，系统学习OPC开发、部署与运维技能。">
       <section className="grid grid--3">
-        {opcCourses.map((course) => (
-          <article className="skill-card" key={course.title}>
-            <div className="skill-top">
-              <span className="tag skill-corner-tag" style={{ background: 'rgba(13,148,136,0.12)', color: '#0d9488' }}>{course.difficulty}</span>
-              <span className="downloads">{course.duration}</span>
-            </div>
-            <h3>{course.title}</h3>
-            <p>{course.desc}</p>
-            <div className="card-actions">
-              <button type="button" className="btn--primary btn--sm">开始学习</button>
-            </div>
-          </article>
-        ))}
+        {opcCourses.map((course) => {
+          const isExpanded = expandedId === course.id;
+          return (
+            <article className="skill-card" key={course.id} style={isExpanded ? { gridColumn: '1 / -1' } : {}}>
+              <div className="skill-top">
+                <span className="tag skill-corner-tag" style={{ background: 'rgba(13,148,136,0.12)', color: '#0d9488' }}>{course.difficulty}</span>
+                <span className="downloads">{course.duration}</span>
+              </div>
+              <h3>{course.title}</h3>
+              <p>{course.desc}</p>
+              <div className="card-actions">
+                <button type="button" className="btn--primary btn--sm" onClick={() => setExpandedId(isExpanded ? null : course.id)}>
+                  {isExpanded ? '收起课程' : '开始学习'}
+                </button>
+              </div>
+              {isExpanded && course.chapters && (
+                <div style={{ marginTop: 18, borderTop: '1px solid var(--line)', paddingTop: 16 }}>
+                  <p className="subtitle" style={{ marginBottom: 12, fontWeight: 700 }}>课程目录</p>
+                  <div style={{ display: 'grid', gap: 10 }}>
+                    {course.chapters.map((ch) => (
+                      <div key={ch.n} style={{ display: 'flex', gap: 12, padding: '10px 14px', background: 'var(--surface-2)', borderRadius: 10, alignItems: 'flex-start' }}>
+                        <span className="tag" style={{ background: 'var(--teal-tint)', color: 'var(--teal-bright)', fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 }}>{ch.n}</span>
+                        <div>
+                          <strong style={{ fontSize: '0.94rem' }}>{ch.title}</strong>
+                          <p className="subtitle" style={{ margin: '4px 0 0', fontSize: '0.84rem' }}>{ch.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })}
       </section>
     </Shell>
   );
@@ -1159,21 +1347,110 @@ function CoursesPage() {
 // PoliciesPage — 政策栏
 // ============================================================
 function PoliciesPage() {
+  const [expandedId, setExpandedId] = React.useState(null);
   return (
     <Shell badge="政策" title="政策栏" subtitle="荆州本地支持OPC产业发展的相关政策文件与通知。">
       <div className="grid" style={{ gridTemplateColumns: '1fr' }}>
-        {localPolicies.map((policy) => (
-          <article className="surface-card" key={policy.title} style={{ padding: '20px 22px' }}>
-            <h3 style={{ margin: '0 0 10px' }}>{policy.title}</h3>
-            <div className="skill-top" style={{ marginBottom: 10 }}>
-              <span className="tag">{policy.dept}</span>
-              <span className="downloads">{policy.date}</span>
-            </div>
-            <p className="hero-text" style={{ margin: 0 }}>{policy.summary}</p>
-          </article>
-        ))}
+        {localPolicies.map((policy) => {
+          const isExpanded = expandedId === policy.id;
+          return (
+            <article className="surface-card" key={policy.id} style={{ padding: '20px 22px', cursor: 'pointer', transition: 'box-shadow .2s', border: isExpanded ? '1px solid var(--teal)' : '1px solid var(--line)' }} onClick={() => setExpandedId(isExpanded ? null : policy.id)}>
+              <h3 style={{ margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: '1.2rem', transition: 'transform .2s', transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)' }}>▸</span>
+                {policy.title}
+              </h3>
+              <div className="skill-top" style={{ marginBottom: 10 }}>
+                <span className="tag">{policy.dept}</span>
+                <span className="downloads">{policy.date}</span>
+              </div>
+              <p className="hero-text" style={{ margin: 0 }}>{policy.summary}</p>
+              {isExpanded && policy.content && (
+                <div style={{ marginTop: 18, borderTop: '1px solid var(--line)', paddingTop: 16 }}>
+                  <p style={{ fontSize: '0.95rem', lineHeight: 1.9, color: 'var(--text-2)', whiteSpace: 'pre-wrap' }}>{policy.content}</p>
+                </div>
+              )}
+            </article>
+          );
+        })}
       </div>
     </Shell>
+  );
+}
+
+// ============================================================
+// XiaochuService — 右下角固定客服入口（不随路由切换）
+// ============================================================
+const XIAOCHU_REPLY = '收到你的消息啦～我是小楚，楚楚智创的官方 IP！目前我还在学习成长中，复杂问题可以发邮件到 support@weopc.com.cn，我们的小伙伴会尽快回复你 💚';
+const XIAOCHU_WELCOME = '嗨！我是小楚 👋 有什么想了解的都可以问我～';
+
+function XiaochuService() {
+  const [open, setOpen] = React.useState(false);
+  const [msg, setMsg] = React.useState('');
+  const [messages, setMessages] = React.useState([{ from: 'xiaochu', text: XIAOCHU_WELCOME }]);
+  const listRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
+  }, [messages]);
+
+  function handleSend() {
+    const text = msg.trim();
+    if (!text) return;
+    const userMsg = { from: 'user', text };
+    setMessages((prev) => [...prev, userMsg]);
+    setMsg('');
+    // 小楚自动回复
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { from: 'xiaochu', text: XIAOCHU_REPLY }]);
+    }, 600);
+  }
+
+  return (
+    <div className="xiaochu-service">
+      {open && (
+        <div className="xiaochu-dialog">
+          <div className="xiaochu-dialog-head">
+            <img src="/xiaochu.png" alt="小楚" style={{ width: 36, height: 'auto' }} />
+            <div>
+              <strong>小楚</strong>
+              <p className="subtitle" style={{ margin: 0, fontSize: '0.74rem' }}>在线</p>
+            </div>
+            <button type="button" onClick={() => setOpen(false)} style={{ border: 'none', background: 'transparent', color: 'var(--text-3)', cursor: 'pointer', fontSize: '1.2rem', marginLeft: 'auto' }}>✕</button>
+          </div>
+          <div className="xiaochu-dialog-body">
+            <div className="xiaochu-msg-list" ref={listRef}>
+              {messages.map((m, i) => (
+                <div key={i} className={`xiaochu-msg ${m.from === 'user' ? 'xiaochu-msg--user' : 'xiaochu-msg--bot'}`}>
+                  {m.from === 'xiaochu' && <img src="/xiaochu.png" alt="小楚" className="xiaochu-msg-avatar" />}
+                  <div className="xiaochu-msg-bubble">{m.text}</div>
+                  {m.from === 'user' && <img src="/xiaochu.png" alt="小楚" className="xiaochu-msg-avatar" />}
+                </div>
+              ))}
+            </div>
+            <div className="xiaochu-input-row">
+              <input
+                type="text"
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                placeholder="输入消息…"
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSend(); }}
+              />
+              <button type="button" className="btn--primary btn--sm" onClick={handleSend}>发送</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <button
+        type="button"
+        className="xiaochu-float-btn"
+        onClick={() => setOpen((v) => !v)}
+        aria-label="联系客服小楚"
+        title="有问题？问小楚"
+      >
+        <img src="/xiaochu.png" alt="小楚" />
+        <span className="xiaochu-pulse" />
+      </button>
+    </div>
   );
 }
 
@@ -1194,13 +1471,14 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/skill/:id" element={<SkillDetailPage />} />
         <Route path="/requests" element={<RequestsPlazaPage />} />
-        <Route path="/pioneer" element={<PioneerPage />} />
         <Route path="/compute" element={<ComputePage />} />
+        <Route path="/trial/:modelId" element={<ModelTrialPage />} />
         <Route path="/courses" element={<CoursesPage />} />
         <Route path="/policies" element={<PoliciesPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <ChatLayer />
+      <XiaochuService />
     </SocialProvider>
   );
 }

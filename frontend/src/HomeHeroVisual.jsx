@@ -2,15 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ParticleField, useCountUp } from './ParticleField.jsx';
 
-const TARGET_SKILLS = 128;
-const TARGET_AUTHORS = 36;
-const TARGET_DOWNLOADS_K = 240;
+const TARGET_SKILLS = 23;
+const TARGET_AUTHORS = 5;
+const TARGET_DOWNLOADS_K = 645;
 
 /** 悬停小圆片：点击跳转对应分类（browseCategory 须与 Browse 页分类一致） */
 const HERO_FLOATERS = [
   { id: 'aigc', color: 'linear-gradient(135deg,#0d9488,#14b8a6)', icon: 'play', label: 'AIGC', browseCategory: 'AIGC' },
   { id: 'content', color: 'linear-gradient(135deg,#b7950b,#d97706)', icon: 'pen', label: '内容创作', browseCategory: '内容创作' },
-  { id: 'web', color: 'linear-gradient(135deg,#8b5cf6,#7c3aed)', icon: 'code', label: '前端网页', browseCategory: '前端网页' },
+  { id: 'web', color: 'linear-gradient(135deg,#8b5cf6,#7c3aed)', icon: 'code', label: 'vibe coding', browseCategory: 'vibe coding' },
 ];
 
 export function HomeHeroVisual() {

@@ -23,7 +23,7 @@ const FEATURES = [
 const CAT_CARDS = [
   { t: 'AIGC', cat: 'AIGC', g: 'linear-gradient(140deg,#0d9488,#14b8a6)' },
   { t: '内容创作', cat: '内容创作', g: 'linear-gradient(140deg,#b7950b,#d97706)' },
-  { t: '前端网页', cat: '前端网页', g: 'linear-gradient(140deg,#8b5cf6,#7c3aed)' },
+  { t: 'vibe coding', cat: 'vibe coding', g: 'linear-gradient(140deg,#8b5cf6,#7c3aed)' },
 ];
 
 function VisualCatalog() {
@@ -109,9 +109,9 @@ function VisualReward() {
 const DETAILS = [
   {
     key: 'catalog', no: '01', eyebrow: 'Skills 集合', Visual: VisualCatalog, flip: false,
-    title: '一个目录，连接 AIGC、内容创作与前端网页',
-    text: '我们把零散的 AI 能力沉淀成结构化的 Skill 目录：AIGC 覆盖提示词、文生图、视频生成与 AI 工具链；内容创作覆盖写作、脚本、排版与多平台分发；前端网页覆盖页面开发、组件与响应式布局。每个 Skill 都标注场景、分类与部署量，找得到、选得准。',
-    points: ['AIGC / 内容创作 / 前端网页三大分类，按场景快速定位', '统一描述与部署量，质量一目了然', '持续扩充的精选目录，开箱即用'],
+    title: '一个目录，连接 AIGC、内容创作与 vibe coding',
+    text: '我们把零散的 AI 能力沉淀成结构化的 Skill 目录：AIGC 覆盖提示词、文生图、视频生成与 AI 工具链；内容创作覆盖写作、脚本、排版与多平台分发；vibe coding 覆盖品牌官网、游戏网站、后台仪表盘、企业官网等网页开发场景。每个 Skill 都标注场景、分类与部署量，找得到、选得准。',
+    points: ['AIGC / 内容创作 / vibe coding 三大分类，按场景快速定位', '统一描述与部署量，质量一目了然', '持续扩充的精选目录，开箱即用'],
   },
   {
     key: 'deploy', no: '02', eyebrow: '一键部署', Visual: VisualDeploy, flip: true,
@@ -167,9 +167,9 @@ export function LandingPage() {
     navigate('/');
   }
 
-  const nSkills = useCountUp(128);
-  const nAuthors = useCountUp(36);
-  const nDownloads = useCountUp(240);
+  const nSkills = useCountUp(23);
+  const nAuthors = useCountUp(5);
+  const nDownloads = useCountUp(645);
 
   return (
     <div className="landing">
@@ -214,7 +214,7 @@ export function LandingPage() {
 
         <section className="landing-features">
           <div className="landing-features-head">
-            <h2>一个平台，连接<span className="text-gradient">AIGC</span>、<span className="text-gradient">内容创作</span>与<span className="text-gradient">前端网页</span></h2>
+            <h2>一个平台，连接<span className="text-gradient">AIGC</span>、<span className="text-gradient">内容创作</span>与<span className="text-gradient">vibe coding</span></h2>
             <p>从发现到部署，从需求到变现 —— 楚楚智创为下一代 AI 使用者降低每一道门槛。</p>
           </div>
           <div className="landing-feature-grid">

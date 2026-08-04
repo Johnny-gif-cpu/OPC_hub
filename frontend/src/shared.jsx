@@ -44,10 +44,34 @@ export function BrandMark({ size = 34 }) {
 
 export function Brand({ to = '/', markSize = 34, onClick }) {
   const navigate = useNavigate();
+  const [showIntro, setShowIntro] = React.useState(false);
+
+  function handleMascotClick(e) {
+    e.stopPropagation();
+    setShowIntro(true);
+  }
+
+  React.useEffect(() => {
+    if (!showIntro) return;
+    function close(e) { if (!e.target.closest('.brand-mascot-popup')) setShowIntro(false); }
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [showIntro]);
+
   return (
-    <span className="brand" onClick={() => { if (onClick) onClick(); else navigate(to); }} role="link" tabIndex={0}>
+    <span className="brand" onClick={() => { if (onClick) onClick(); else navigate(to); }} role="link" tabIndex={0} style={{ position: 'relative' }}>
       <BrandMark size={markSize} />
       <span className="brand-word">楚楚智创<b> OPC 孵化器</b></span>
+      <img src="/xiaochu.png" alt="小楚" title="小楚" className="brand-mascot" style={{ height: markSize + 6, width: 'auto', marginLeft: 6 }} onClick={handleMascotClick} />
+      {showIntro && (
+        <div className="brand-mascot-popup" onClick={(e) => e.stopPropagation()}>
+          <button type="button" className="brand-mascot-popup-close" onClick={() => setShowIntro(false)}>✕</button>
+          <img src="/xiaochu.png" alt="小楚" style={{ width: 80, height: 'auto', marginBottom: 10 }} />
+          <h4>你好，我是小楚！</h4>
+          <p>楚楚智创 OPC 平台的官方 IP 形象。我在这里陪你一起探索 AI 智能体的世界～</p>
+          <p className="subtitle" style={{ fontSize: '0.8rem', margin: 0 }}>有任何问题，点击右下角找我聊天 💬</p>
+        </div>
+      )}
     </span>
   );
 }
@@ -147,7 +171,7 @@ const catPaths = {
   账号流量: <><path d="M4 19V5M4 19h16M7.5 16l3.5-4 3 2.5L20 8" /></>,
   AIGC: <><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m10 9 5 3-5 3V9Z"/></>,
   内容创作: <><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m10 9 5 3-5 3V9Z" /></>,
-  前端网页: <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></>,
+  'vibe coding': <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></>,
   产品设计: <><rect x="3" y="3" width="8" height="8" rx="1.6" /><rect x="13" y="3" width="8" height="8" rx="1.6" /><rect x="3" y="13" width="8" height="8" rx="1.6" /><rect x="13" y="13" width="8" height="8" rx="1.6" /></>,
   主机代理: <><rect x="3" y="4" width="18" height="6" rx="1.6" /><rect x="3" y="14" width="18" height="6" rx="1.6" /><path d="M7 7h.01M7 17h.01" /></>,
 };
@@ -157,40 +181,38 @@ export const CategoryIcon = ({ category, size = 24 }) => (
   </svg>
 );
 
+// Chinese social media icons
+const IconDouyin = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 7.5a6.4 6.4 0 0 1-3.7-1.2v5.5c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.2 0 .4 0 .6.1v3.8a4.2 4.2 0 1 0 2.9 4V2.5h3.6c.4 2.8 2.6 5 4.6 5v3.8z" /></svg>
+);
+const IconXiaohongshu = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 3H5.5A2.5 2.5 0 0 0 3 5.5v13A2.5 2.5 0 0 0 5.5 21h13a2.5 2.5 0 0 0 2.5-2.5v-13A2.5 2.5 0 0 0 18.5 3zM8 7h2.5c.2 2.5 1 5 3.5 6.2V15c-3.2-.5-5-2.5-5.5-4.5V15H6V7h2zm8 10h-2v-5.5c-1.2-.8-2-2-2.2-3.5H14c.2 1.5 1 3 3 3.5V17z" /></svg>
+);
+const IconWeibo = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 16.5c-4-.5-7-2-7.5-5-.2-1.2.4-2.4 1.5-3 2.3-1.3 6-.5 8.5 1.5 1.5 1.2 2.4 2.8 2.5 4.5 0 .8-.5 1.5-1 2-.8.7-2 .8-4 .7zm5-7c-.8-.3-1.5-.5-1.5-1.2 0-.7.8-.8 1.5-.6 1.8.5 3 2 3.5 3.8.3.8 0 1.5-.6 1.7-.8.3-1.2-.3-1.5-.8-.7-1.2-1.5-2.5-3-3zm-2.5-3c-1.5-.3-2.5-1-2.5-2 0-1 .8-1.5 2-1.2 3.5.8 6 4 6.5 7.5.2 1.5-.3 2.5-1.5 2.7-1.2.2-1.8-1-2.2-2-.7-1.8-1.8-4.5-2.8-5zm-4.8 11.5c-2.5.3-4.8-.2-5-2-.2-1.8 2-3 5-2.8 2.8.2 5 1.8 5 3.5-.2 1.8-2.5 1.3-5 1.3z" /></svg>
+);
+const IconBilibili = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 5h-3.8l-.7-2H10l-.7 2H5.5A2.5 2.5 0 0 0 3 7.5v9A2.5 2.5 0 0 0 5.5 19h13a2.5 2.5 0 0 0 2.5-2.5v-9A2.5 2.5 0 0 0 18.5 5zM11 14.5V10l4 2.2-4 2.3z" /></svg>
+);
+
 export function Footer() {
   const navigate = useNavigate();
   return (
     <footer className="app-footer">
       <div className="footer-inner">
-        <div className="footer-grid">
+        <div className="footer-grid footer-grid--single">
           <div className="footer-col footer-col--brand">
             <Brand />
             <p>汇聚荆楚智慧，为 AI 智能体时代的创新者提供发现、部署与协作的孵化平台。</p>
+          </div>
+          <div className="footer-col footer-col--social">
             <div className="footer-social">
-              <span className="footer-social-icon" aria-label="GitHub"><IconGitHub /></span>
-              <span className="footer-social-icon" aria-label="Twitter"><IconTwitter /></span>
+              <a className="footer-social-icon" href="#" aria-label="抖音" title="抖音"><IconDouyin /></a>
+              <a className="footer-social-icon" href="#" aria-label="小红书" title="小红书"><IconXiaohongshu /></a>
+              <a className="footer-social-icon" href="#" aria-label="微博" title="微博"><IconWeibo /></a>
+              <a className="footer-social-icon" href="#" aria-label="B站" title="B站"><IconBilibili /></a>
             </div>
-          </div>
-          <div className="footer-col">
-            <h4>平台</h4>
-            <a onClick={() => navigate('/browse')}>Skill广场</a>
-            <a onClick={() => navigate('/requests')}>OPC订单</a>
-            <a onClick={() => navigate('/compute')}>算力中心</a>
-            <a onClick={() => navigate('/courses')}>成为OPC课程</a>
-            <a onClick={() => navigate('/policies')}>政策栏</a>
-            <a onClick={() => navigate('/pioneer')}>楚楚先锋榜</a>
-            <a onClick={() => navigate('/upload')}>上传智能体</a>
-          </div>
-          <div className="footer-col">
-            <h4>资源</h4>
-            <a onClick={() => navigate('/browse')}>新手教程</a>
-            <a onClick={() => navigate('/pioneer')}>先锋计划</a>
-            <a onClick={() => navigate('/browse')}>分类浏览</a>
-          </div>
-          <div className="footer-col">
-            <h4>支持</h4>
-            <a href="mailto:support@weopc.com.cn">support@weopc.com.cn</a>
-            <p className="footer-safe">部署和执行智能体前，请先查看来源与权限说明。</p>
+            <a className="footer-email" href="mailto:support@weopc.com.cn">support@weopc.com.cn</a>
           </div>
         </div>
         <div className="footer-bottom">
